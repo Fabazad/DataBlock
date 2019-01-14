@@ -1,19 +1,95 @@
-{
+{ // https://developer.chrome.com/extensions/manifest
 
-    "manifest_version": 2,
-    "name": "Borderify",
-    "version": "1.0",
-  
-    "description": "Adds a solid red border to all webpages matching mozilla.org.",
-  
-    "icons": {
-      "48": "icons/border-48.png"
-    },
-  
-    "content_scripts": [
-      {
-        "matches": ["*://*.mozilla.org/*"],
-        "js": ["borderify.js"]
-      }
-    ]
+	"manifest_version": 2,
+	
+	"name": "DataBlock",
+	
+	"author": "PIFE2019",
+	
+	"version": "1.0",
+	
+	"description": "A web extension that permit to stop personal data collection.",
+	
+	"permissions": [ // https://developer.chrome.com/extensions/declare_permissions
+		
+		"debugger",
+		"tabs",
+		"activeTab",
+		"storage"
+		
+	],
+	
+	"icons": { // https://developer.chrome.com/extensions/manifest/icons
+	
+		"48": "assets/icons/icon48.png",
+		"96": "assets/icons/icon96.png"
+		
+	},
+	
+	"browser_action": { // https://developer.chrome.com/extensions/browserAction
+	
+		"default_title": "Auto Ext Settings",
+		"default_icon": "assets/icons/icon48.png",
+		"default_popup": "resources/popup/popup.html"
+		
+	},
+	
+	"background": { // https://developer.chrome.com/extensions/background_pages
+	
+		"scripts": [
+			"resources/background.js" // do not remove
+			
+			//"resources/extension.min.js"
+			
+		]
+		
+	},
+
+	"content_scripts": [ // https://developer.chrome.com/extensions/content_scripts
+		{
+		
+			"matches": [ // https://developer.chrome.com/apps/match_patterns
+				"<all_urls>"
+			],
+			
+			"js": [
+				"resources/jquery.min.js",
+				"resources/test.js"
+				
+				//"resources/extension.min.js" // do not remove
+				
+			],
+			
+			"run_at": "document_end" // https://developer.chrome.com/extensions/content_scripts#run_time
+			
+		}
+	],
+	
+	
+	"externally_connectable": { // https://developer.chrome.com/apps/manifest/externally_connectable // https://stackoverflow.com/a/18304985/3089199
+	
+		"ids": [			
+			
+		],
+		
+		"matches": [ // https://developer.chrome.com/apps/match_patterns
+		
+			"*://localhost/",
+				
+				"*://*.twitter.com/",
+				
+				"*://*.google.com/*",
+				"*://*.google.fr/*",
+				
+				"*://*.yahoo.com/",
+				
+				"*://*.wikipedia.org/*",
+				
+				"*://*.qwant.com/*"
+			
+		],
+		
+		"accepts_tls_channel_id": false
+		
+	}
 }
