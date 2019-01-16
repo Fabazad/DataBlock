@@ -1,15 +1,45 @@
 function goToGoogle(){
     if(window.location.href != "https://myaccount.google.com/activitycontrols"){
+        chrome.runtime.sendMessage({action: "waitForGoogleActivityControl", page: window.location.href});
         window.location.replace("https://myaccount.google.com/activitycontrols");
-        chrome.runtime.sendMessage({action: "waitForGoogleActivityControl"});
     }
 }
-function deselectAll(){
-    var webActivitySwitch = $(".LsSwGf.PciPcd");
-    while(!webActivitySwitch){
-        webActivitySwitch = $(".LsSwGf.PciPcd");
+function deselectAll(page){
+    var webActivitySwitch = $(".LsSwGf.PciPcd.N2RpBe");
+    webActivitySwitch.click();
+    deselectAllBis(webActivitySwitch.length, page);
+}
+
+function deselectAllBis(numActivedSwitches, page){
+    var $divsToScroll = $(".ETZ0Vd");
+    if($divsToScroll.length < numActivedSwitches){
+        setTimeout(()=> {
+            deselectAllBis(numActivedSwitches, page);
+        }, 100);
     }
-    $(".LsSwGf.PciPcd").click();
+    else{
+        $divsToScroll.each((index)=>{
+            $($divsToScroll.get(index)).scrollTop(1000);
+        });
+        setTimeout(()=>{
+            $(".HQ8yf, .HQ8yf a").click();
+            refreshPage(page);
+        },100);
+    }
+}
+
+function refreshPage(page){
+    console.log(page);
+    if($(".HQ8yf, .HQ8yf a").length){
+        setTimeout(()=>{
+            refreshPage(page);
+        },100);
+    }
+    else{
+        setTimeout(()=>{
+            window.location.replace(page);
+        },3000);
+    }
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse){
@@ -17,7 +47,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse){
         goToGoogle();
     }
     if(request.action == "deselectAll"){
-        deselectAll();
+        deselectAll(request.page);
     }
 });
 
