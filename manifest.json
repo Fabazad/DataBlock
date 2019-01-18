@@ -15,21 +15,23 @@
 		"debugger",
 		"tabs",
 		"activeTab",
-		"storage"
+		"storage",
+		"webRequest",
+		"<all_urls>"
 		
 	],
 	
 	"icons": { // https://developer.chrome.com/extensions/manifest/icons
 	
-		"48": "assets/icons/icon48.png",
-		"96": "assets/icons/icon96.png"
+		"48": "assets/icons/DataBlockLogo48.png",
+		"96": "assets/icons/DataBlockLogo96.png"
 		
 	},
 	
 	"browser_action": { // https://developer.chrome.com/extensions/browserAction
 	
 		"default_title": "Auto Ext Settings",
-		"default_icon": "assets/icons/icon48.png",
+		"default_icon": "assets/icons/DataBlockLogo48.png",
 		"default_popup": "resources/popup/popup.html"
 		
 	},

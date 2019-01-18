@@ -29,16 +29,13 @@ function deselectAllBis(numActivedSwitches, page){
 }
 
 function refreshPage(page){
-    console.log(page);
     if($(".HQ8yf, .HQ8yf a").length){
         setTimeout(()=>{
             refreshPage(page);
         },100);
     }
     else{
-        setTimeout(()=>{
-            window.location.replace(page);
-        },3000);
+        chrome.runtime.sendMessage({action: "returnToPage", page: page});
     }
 }
 
@@ -50,4 +47,3 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse){
         deselectAll(request.page);
     }
 });
-
