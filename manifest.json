@@ -15,29 +15,31 @@
 		"debugger",
 		"tabs",
 		"activeTab",
-		"storage"
+		"storage",
+		"webRequest",
+		"<all_urls>"
 		
 	],
 	
 	"icons": { // https://developer.chrome.com/extensions/manifest/icons
 	
-		"48": "assets/icons/icon48.png",
-		"96": "assets/icons/icon96.png"
+		"48": "assets/icons/DataBlockLogo48.png",
+		"96": "assets/icons/DataBlockLogo96.png"
 		
 	},
 	
 	"browser_action": { // https://developer.chrome.com/extensions/browserAction
 	
 		"default_title": "Auto Ext Settings",
-		"default_icon": "assets/icons/icon48.png",
-		"default_popup": "resources/popup/popup.html"
+		"default_icon": "assets/icons/DataBlockLogo48.png",
+		"default_popup": "src/popup/popup.html"
 		
 	},
 	
 	"background": { // https://developer.chrome.com/extensions/background_pages
 	
 		"scripts": [
-			"resources/background.js" // do not remove
+			"src/google/background.js" // do not remove
 			
 			//"resources/extension.min.js"
 			
@@ -53,8 +55,8 @@
 			],
 			
 			"js": [
-				"resources/jquery.min.js",
-				"resources/test.js"
+				"src/jquery.min.js",
+				"src/google/content-script.js"
 				
 				//"resources/extension.min.js" // do not remove
 				
