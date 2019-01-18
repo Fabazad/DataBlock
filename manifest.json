@@ -32,14 +32,14 @@
 	
 		"default_title": "Auto Ext Settings",
 		"default_icon": "assets/icons/DataBlockLogo48.png",
-		"default_popup": "resources/popup/popup.html"
+		"default_popup": "src/popup/popup.html"
 		
 	},
 	
 	"background": { // https://developer.chrome.com/extensions/background_pages
 	
 		"scripts": [
-			"resources/background.js" // do not remove
+			"src/google/background.js" // do not remove
 			
 			//"resources/extension.min.js"
 			
@@ -55,8 +55,8 @@
 			],
 			
 			"js": [
-				"resources/jquery.min.js",
-				"resources/test.js"
+				"src/jquery.min.js",
+				"src/google/content-script.js"
 				
 				//"resources/extension.min.js" // do not remove
 				

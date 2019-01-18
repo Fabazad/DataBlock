@@ -1,3 +1,12 @@
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse){
+    if(request.action == "goToGoogle"){
+        goToGoogle();
+    }
+    if(request.action == "deselectAll"){
+        deselectAll(request.page);
+    }
+});
+
 function goToGoogle(){
     if(window.location.href != "https://myaccount.google.com/activitycontrols"){
         chrome.runtime.sendMessage({action: "waitForGoogleActivityControl", page: window.location.href});
@@ -38,12 +47,3 @@ function refreshPage(page){
         chrome.runtime.sendMessage({action: "returnToPage", page: page});
     }
 }
-
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse){
-    if(request.action == "goToGoogle"){
-        goToGoogle();
-    }
-    if(request.action == "deselectAll"){
-        deselectAll(request.page);
-    }
-});
