@@ -1,18 +1,18 @@
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse){
     if(request.action == "goToGoogle"){
-        goToGoogle();
+        goToGoogle(request.fieldsToSelect);
     }
     if(request.action == "deselectAll"){
-        deselectAll(request.firstTab);
+        deselectAll(request.firstTab, request.fieldsToSelect);
     }
 });
 
-function goToGoogle(){
+function goToGoogle(fieldsToSelect){
     if(window.location.href != "https://myaccount.google.com/activitycontrols"){
-        chrome.runtime.sendMessage({action: "goToGoogle"});
+        chrome.runtime.sendMessage({action: "goToGoogle", fieldsToSelect: fieldsToSelect});
     }
 }
-function deselectAll(firstTab, fieldsToSelect = [1, 2]){
+function deselectAll(firstTab, fieldsToSelect){
     var $switchToSelect = $(".LsSwGf.PciPcd").filter((index, s) => {
         return fieldsToSelect.includes(index) && !$(s).hasClass('N2RpBe');
     });

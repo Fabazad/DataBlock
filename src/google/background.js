@@ -1,6 +1,6 @@
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	if (request.action == "goToGoogle") {
-		goToGoogle();
+		goToGoogle(request.fieldsToSelect);
 	}
 	if (request.action == "closeTab") {
 		closeTab(request.firstTab);
@@ -15,23 +15,23 @@ chrome.webRequest.onCompleted.addListener((request)=>{
 	requests = requests.filter((r)=> {r.requestId != request.requestId});
 },{urls: ["*://*.myaccount.google.com/*"]});
 
-function goToGoogle(){
+function goToGoogle(fieldsToSelect){
 	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 		var firstTab = tabs[0];
 		chrome.tabs.create({url: "https://myaccount.google.com/activitycontrols"}, (tab) => {
-			waitForGoogle(firstTab);
+			waitForGoogle(firstTab, fieldsToSelect);
 		});
 	});
 }
 
-function waitForGoogle(firstTab){
+function waitForGoogle(firstTab, fieldsToSelect){
 	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 		var tab = tabs[0];
 		if(tab.url == "https://myaccount.google.com/activitycontrols" && tab.status === "complete"){
-			chrome.tabs.sendMessage(tab.id, {action: "deselectAll", firstTab: firstTab});
+			chrome.tabs.sendMessage(tab.id, {action: "deselectAll", firstTab: firstTab, fieldsToSelect: fieldsToSelect});
 		}
 		else{
-			waitForGoogle(firstTab);
+			waitForGoogle(firstTab, fieldsToSelect);
 		}
 	});
 }
@@ -39,7 +39,7 @@ function waitForGoogle(firstTab){
 function closeTab(firstTab){
 	if(requests.length > 0){
 		setTimeout(()=>{
-			closeTab(page);
+			closeTab(firstTab);
 		},100);		
 	}
 	else{
