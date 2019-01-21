@@ -15,7 +15,6 @@ chrome.webRequest.onCompleted.addListener((request)=>{
 	requests = requests.filter((r)=> {r.requestId != request.requestId});
 },{urls: ["*://*.myaccount.google.com/*"]});
 
-
 function waitForGoogle(page){
 	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 		if(tabs[0].url == "https://myaccount.google.com/activitycontrols" && tabs[0].status === "complete"){

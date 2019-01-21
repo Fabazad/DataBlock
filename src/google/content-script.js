@@ -13,10 +13,17 @@ function goToGoogle(){
         window.location.replace("https://myaccount.google.com/activitycontrols");
     }
 }
-function deselectAll(page){
-    var webActivitySwitch = $(".LsSwGf.PciPcd.N2RpBe");
-    webActivitySwitch.click();
-    deselectAllBis(webActivitySwitch.length, page);
+function deselectAll(page, fieldsToSelect = [2, 4, 5]){
+    var $switchToSelect = $(".LsSwGf.PciPcd").filter((index, s) => {
+        return fieldsToSelect.includes(index) && !$(s).hasClass('N2RpBe');
+    });
+    var $switchToDeselect = $(".LsSwGf.PciPcd").filter((index, s) => {
+        return !fieldsToSelect.includes(index) && $(s).hasClass('N2RpBe');
+    });
+    
+    var $switchToClick = $.merge($switchToSelect, $switchToDeselect);
+    $switchToClick.click();
+    deselectAllBis($switchToClick.length, page);
 }
 
 function deselectAllBis(numActivedSwitches, page){
