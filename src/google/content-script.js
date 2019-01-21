@@ -3,17 +3,16 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse){
         goToGoogle();
     }
     if(request.action == "deselectAll"){
-        deselectAll(request.page);
+        deselectAll(request.firstTab);
     }
 });
 
 function goToGoogle(){
     if(window.location.href != "https://myaccount.google.com/activitycontrols"){
-        chrome.runtime.sendMessage({action: "waitForGoogleActivityControl", page: window.location.href});
-        window.location.replace("https://myaccount.google.com/activitycontrols");
+        chrome.runtime.sendMessage({action: "goToGoogle"});
     }
 }
-function deselectAll(page, fieldsToSelect = [2, 4, 5]){
+function deselectAll(firstTab, fieldsToSelect = [1, 2]){
     var $switchToSelect = $(".LsSwGf.PciPcd").filter((index, s) => {
         return fieldsToSelect.includes(index) && !$(s).hasClass('N2RpBe');
     });
@@ -23,14 +22,14 @@ function deselectAll(page, fieldsToSelect = [2, 4, 5]){
     
     var $switchToClick = $.merge($switchToSelect, $switchToDeselect);
     $switchToClick.click();
-    deselectAllBis($switchToClick.length, page);
+    deselectAllBis($switchToClick.length, firstTab);
 }
 
-function deselectAllBis(numActivedSwitches, page){
+function deselectAllBis(numActivedSwitches, firstTab){
     var $divsToScroll = $(".ETZ0Vd");
     if($divsToScroll.length < numActivedSwitches){
         setTimeout(()=> {
-            deselectAllBis(numActivedSwitches, page);
+            deselectAllBis(numActivedSwitches, firstTab);
         }, 100);
     }
     else{
@@ -39,18 +38,18 @@ function deselectAllBis(numActivedSwitches, page){
         });
         setTimeout(()=>{
             $(".HQ8yf, .HQ8yf a").click();
-            refreshPage(page);
+            closeTab(firstTab);
         },100);
     }
 }
 
-function refreshPage(page){
+function closeTab(firstTab){
     if($(".HQ8yf, .HQ8yf a").length){
         setTimeout(()=>{
-            refreshPage(page);
+            closeTab(firstTab);
         },100);
     }
     else{
-        chrome.runtime.sendMessage({action: "returnToPage", page: page});
+        chrome.runtime.sendMessage({action: "closeTab", firstTab: firstTab});
     }
 }

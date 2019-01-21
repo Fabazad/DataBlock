@@ -1,9 +1,9 @@
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-	if (request.action == "waitForGoogleActivityControl") {
-		waitForGoogle(request.page);
+	if (request.action == "goToGoogle") {
+		goToGoogle();
 	}
-	if (request.action == "returnToPage") {
-		returnToPage(request.page);
+	if (request.action == "closeTab") {
+		closeTab(request.firstTab);
 	}
 });
 
@@ -15,27 +15,38 @@ chrome.webRequest.onCompleted.addListener((request)=>{
 	requests = requests.filter((r)=> {r.requestId != request.requestId});
 },{urls: ["*://*.myaccount.google.com/*"]});
 
-function waitForGoogle(page){
+function goToGoogle(){
 	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-		if(tabs[0].url == "https://myaccount.google.com/activitycontrols" && tabs[0].status === "complete"){
-			chrome.tabs.sendMessage(tabs[0].id, {action: "deselectAll", page: page});
+		var firstTab = tabs[0];
+		chrome.tabs.create({url: "https://myaccount.google.com/activitycontrols"}, (tab) => {
+			waitForGoogle(firstTab);
+		});
+	});
+}
+
+function waitForGoogle(firstTab){
+	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+		var tab = tabs[0];
+		if(tab.url == "https://myaccount.google.com/activitycontrols" && tab.status === "complete"){
+			chrome.tabs.sendMessage(tab.id, {action: "deselectAll", firstTab: firstTab});
 		}
 		else{
-			waitForGoogle(page);
+			waitForGoogle(firstTab);
 		}
 	});
 }
 
-function returnToPage(page){
+function closeTab(firstTab){
 	if(requests.length > 0){
 		setTimeout(()=>{
-			returnToPage(page);
+			closeTab(page);
 		},100);		
 	}
 	else{
 		setTimeout(()=>{
-			chrome.tabs.query({ active: true, currentWindow: true }, function (tab) {
-				chrome.tabs.update(tab.id, {url: page});
+			chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+				chrome.tabs.remove([tabs[0].id]);
+				chrome.tabs.update(firstTab.id, {active: true});
 			});
 		},500);
 		
