@@ -8,3 +8,12 @@ async function waitForElement(selector){
     }
     return new Promise((resolve) => resolve($element));
 }
+
+async function waitForCloseElement(selector){
+    var $element = $(selector)[0];
+    while($element){
+        await wait(100);
+        $element = $(selector)[0];
+    }
+    return new Promise();
+}
