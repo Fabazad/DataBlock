@@ -5,4 +5,11 @@ $("#go-to-google").click((event)=>{
 	chrome.tabs.query({active: true, currentWindow: true}, function (tabs){
 		chrome.runtime.sendMessage({action: "goToGoogle", fieldsToSelect: fieldsToSelect});
 	 });
-})
+});
+
+$("#go-to-google-ads").click((event)=>{
+	var toDisable = true;
+	chrome.tabs.query({active: true, currentWindow: true}, function (tabs){
+		chrome.runtime.sendMessage({action: "goToGoogleAds", toDisable: toDisable});
+	 });
+});
