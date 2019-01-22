@@ -11,14 +11,9 @@
 	"description": "A web extension that permit to stop personal data collection.",
 	
 	"permissions": [ // https://developer.chrome.com/extensions/declare_permissions
-		
-		"debugger",
 		"tabs",
-		"activeTab",
-		"storage",
 		"webRequest",
 		"<all_urls>"
-		
 	],
 	
 	"icons": { // https://developer.chrome.com/extensions/manifest/icons
@@ -39,6 +34,8 @@
 	"background": { // https://developer.chrome.com/extensions/background_pages
 	
 		"scripts": [
+			"src/utils.js",
+			"src/crossBrowser.js",
 			"src/google/background.js" // do not remove
 			
 			//"resources/extension.min.js"
@@ -55,7 +52,9 @@
 			],
 			
 			"js": [
+				"src/utils.js",
 				"src/jquery.min.js",
+				"src/crossBrowser.js",
 				"src/google/content-script.js"
 				
 				//"resources/extension.min.js" // do not remove
@@ -65,33 +64,5 @@
 			"run_at": "document_end" // https://developer.chrome.com/extensions/content_scripts#run_time
 			
 		}
-	],
-	
-	
-	"externally_connectable": { // https://developer.chrome.com/apps/manifest/externally_connectable // https://stackoverflow.com/a/18304985/3089199
-	
-		"ids": [			
-			
-		],
-		
-		"matches": [ // https://developer.chrome.com/apps/match_patterns
-		
-			"*://localhost/",
-				
-				"*://*.twitter.com/",
-				
-				"*://*.google.com/*",
-				"*://*.google.fr/*",
-				
-				"*://*.yahoo.com/",
-				
-				"*://*.wikipedia.org/*",
-				
-				"*://*.qwant.com/*"
-			
-		],
-		
-		"accepts_tls_channel_id": false
-		
-	}
+	]
 }

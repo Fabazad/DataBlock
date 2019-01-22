@@ -1,49 +1,50 @@
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse){
-    if(request.action == "goToGoogle"){
-        goToGoogle();
-    }
     if(request.action == "deselectAll"){
-        deselectAll(request.page);
+        deselectActivities(request.firstTab, request.fieldsToSelect);
     }
 });
 
-function goToGoogle(){
-    if(window.location.href != "https://myaccount.google.com/activitycontrols"){
-        chrome.runtime.sendMessage({action: "waitForGoogleActivityControl", page: window.location.href});
-        window.location.replace("https://myaccount.google.com/activitycontrols");
-    }
-}
-function deselectAll(page){
-    var webActivitySwitch = $(".LsSwGf.PciPcd.N2RpBe");
-    webActivitySwitch.click();
-    deselectAllBis(webActivitySwitch.length, page);
+
+async function deselectActivities(firstTab, fieldsToSelect){
+    var $switchToSelect = $(".LsSwGf.PciPcd").filter((index, s) => {
+        return fieldsToSelect.includes(index) && !$(s).hasClass('N2RpBe');
+    });
+    var $switchToDeselect = $(".LsSwGf.PciPcd").filter((index, s) => {
+        return !fieldsToSelect.includes(index) && $(s).hasClass('N2RpBe');
+    });
+    
+    var $switchToClick = $.merge($switchToSelect, $switchToDeselect);
+    $switchToClick.click();
+    await deselectActivitiesBis($switchToClick.length);
+    await closeTab();
+    chrome.runtime.sendMessage({action: "closeTab", firstTab: firstTab});
 }
 
-function deselectAllBis(numActivedSwitches, page){
+async function deselectActivitiesBis(numActivedSwitches){
     var $divsToScroll = $(".ETZ0Vd");
-    if($divsToScroll.length < numActivedSwitches){
-        setTimeout(()=> {
-            deselectAllBis(numActivedSwitches, page);
-        }, 100);
+    var $buttons = $(".HQ8yf, .HQ8yf a");
+    while($buttons.length < numActivedSwitches){
+        await wait(100);
+        $divsToScroll = $(".ETZ0Vd");
+        $buttons = $(".HQ8yf, .HQ8yf a");
     }
-    else{
-        $divsToScroll.each((index)=>{
-            $($divsToScroll.get(index)).scrollTop(1000);
-        });
-        setTimeout(()=>{
-            $(".HQ8yf, .HQ8yf a").click();
-            refreshPage(page);
-        },100);
-    }
+    $divsToScroll.each((index)=>{
+        $($divsToScroll.get(index)).scrollTop(1000);
+    });
+    await wait(100);
+    return new Promise((resolve, reject)=> {
+        $buttons.click();
+        resolve();
+    });
 }
 
-function refreshPage(page){
-    if($(".HQ8yf, .HQ8yf a").length){
-        setTimeout(()=>{
-            refreshPage(page);
-        },100);
+async function closeTab(){
+    var $openedModal = $(".HQ8yf, .HQ8yf a");
+    while($openedModal.length){
+        await wait(100);
+        $openedModal = $(".HQ8yf, .HQ8yf a");
     }
-    else{
-        chrome.runtime.sendMessage({action: "returnToPage", page: page});
-    }
+    return new Promise((resolve, reject)=>{
+        resolve();
+    });
 }

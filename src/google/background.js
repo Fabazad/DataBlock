@@ -1,44 +1,48 @@
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-	if (request.action == "waitForGoogleActivityControl") {
-		waitForGoogle(request.page);
+const bigBrowser = CrossBrowser.getBrowser();
+
+bigBrowser.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+	if (request.action == "goToGoogle") {
+		goToGoogle(request.fieldsToSelect);
 	}
-	if (request.action == "returnToPage") {
-		returnToPage(request.page);
+	if (request.action == "closeTab") {
+		closeTab(request.firstTab);
 	}
 });
 
 var requests = [];
-chrome.webRequest.onBeforeRequest.addListener((request)=>{
-	requests.push(request)
+bigBrowser.webRequest.onBeforeRequest.addListener((request)=>{
+	requests.push(request);
 },{urls: ["*://*.myaccount.google.com/*"]});
-chrome.webRequest.onCompleted.addListener((request)=>{
+bigBrowser.webRequest.onCompleted.addListener((request)=>{
 	requests = requests.filter((r)=> {r.requestId != request.requestId});
 },{urls: ["*://*.myaccount.google.com/*"]});
 
-
-function waitForGoogle(page){
-	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-		if(tabs[0].url == "https://myaccount.google.com/activitycontrols" && tabs[0].status === "complete"){
-			chrome.tabs.sendMessage(tabs[0].id, {action: "deselectAll", page: page});
-		}
-		else{
-			waitForGoogle(page);
-		}
-	});
+async function goToGoogle(fieldsToSelect){
+	var tabs = await CrossBrowser.tabsQuery({ active: true, currentWindow: true });
+	var firstTab = tabs[0];
+	await bigBrowser.tabs.create({url: "https://myaccount.google.com/activitycontrols"});
+	var tab = await waitForGoogle();
+	bigBrowser.tabs.sendMessage(tab.id, {action: "deselectAll", firstTab: firstTab, fieldsToSelect: fieldsToSelect});
 }
 
-function returnToPage(page){
+async function closeTab(firstTab){
 	if(requests.length > 0){
-		setTimeout(()=>{
-			returnToPage(page);
-		},100);		
+		wait(100);
 	}
 	else{
-		setTimeout(()=>{
-			chrome.tabs.query({ active: true, currentWindow: true }, function (tab) {
-				chrome.tabs.update(tab.id, {url: page});
-			});
-		},500);
-		
+		wait(500);
+		var tabs = await CrossBrowser.tabsQuery({ active: true, currentWindow: true });
+		bigBrowser.tabs.remove([tabs[0].id]);
+		bigBrowser.tabs.update(firstTab.id, {active: true});
 	}
+}
+
+async function waitForGoogle(){
+	var tabs = await CrossBrowser.tabsQuery({ active: true, currentWindow: true });
+	var tab = tabs[0];
+	while(tab.url != "https://myaccount.google.com/activitycontrols" || tab.status != "complete"){
+		tabs = await CrossBrowser.tabsQuery({ active: true, currentWindow: true });
+		tab = tabs[0];	
+	}
+	return new Promise((resolve) => resolve(tab));
 }
