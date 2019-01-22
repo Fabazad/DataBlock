@@ -21,7 +21,7 @@ async function deselectActivities(firstTab, fieldsToSelect){
     var $switchToClick = $.merge($switchToSelect, $switchToDeselect);
     $switchToClick.click();
     await deselectActivitiesBis($switchToClick.length);
-    await waitForCloseModal();
+    await waitForCloseElement(".HQ8yf, .HQ8yf a");
     bigBrowser.runtime.sendMessage({action: "closeTab", firstTab: firstTab});
 }
 
@@ -43,30 +43,18 @@ async function deselectActivitiesBis(numActivedSwitches){
     });
 }
 
-async function waitForCloseModal(){
-    var $openedModal = $(".HQ8yf, .HQ8yf a");
-    while($openedModal.length){
-        await wait(100);
-        $openedModal = $(".HQ8yf, .HQ8yf a");
-    }
-    return new Promise((resolve, reject)=>{
-        resolve();
-    });
-}
-
 async function disableAds(firstTab, toDisable){
     if(toDisable){
         $(".hh4xKf.MLPG7").click();
-        var $disableButton = $(".U26fgb.O0WRkf.oG5Srb.HQ8yf.C0oVfc.ffRi5e.sZ7lgc")[0];
-        while(!$disableButton){
-            await wait(100);
-            $disableButton = $(".U26fgb.O0WRkf.oG5Srb.HQ8yf.C0oVfc.ffRi5e.sZ7lgc")[0];
-        }
+        var $disableButton = await waitForElement(".U26fgb.O0WRkf.oG5Srb.HQ8yf.C0oVfc.ffRi5e.sZ7lgc");
         $disableButton.click();
-        await waitForElement(".U26fgb.O0WRkf.oG5Srb.HQ8yf.C0oVfc.ffRi5e.sZ7lgc.M9Bg4d");
-        bigBrowser.runtime.sendMessage({action: "closeTab", firstTab: firstTab});
     }
     else{
-        $(".LsSwGf.vBNbwc.i9xfbb.N2RpBe").click();
+        $(".hh4xKf.MLPG7").click();
+        var $enableButton = await waitForElement(".U26fgb.O0WRkf.oG5Srb.HQ8yf.C0oVfc.ffRi5e.RBTGZe");
+        $enableButton.click();
+        
     }
+    await waitForElement(".U26fgb.O0WRkf.oG5Srb.HQ8yf.C0oVfc.ffRi5e.sZ7lgc.M9Bg4d");
+        bigBrowser.runtime.sendMessage({action: "closeTab", firstTab: firstTab});
 }

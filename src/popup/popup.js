@@ -8,7 +8,7 @@ $("#go-to-google").click((event)=>{
 });
 
 $("#go-to-google-ads").click((event)=>{
-	var toDisable = true;
+	var toDisable = false;
 	chrome.tabs.query({active: true, currentWindow: true}, function (tabs){
 		chrome.runtime.sendMessage({action: "goToGoogleAds", toDisable: toDisable});
 	 });
