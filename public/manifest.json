@@ -18,25 +18,26 @@
 	
 	"icons": { // https://developer.chrome.com/extensions/manifest/icons
 	
-		"48": "assets/icons/DataBlockLogo48.png",
-		"96": "assets/icons/DataBlockLogo96.png"
+		"48": "icons/DataBlockLogo48.png",
+		"96": "icons/DataBlockLogo96.png"
 		
 	},
 	
 	"browser_action": { // https://developer.chrome.com/extensions/browserAction
 	
 		"default_title": "Auto Ext Settings",
-		"default_icon": "assets/icons/DataBlockLogo48.png",
-		"default_popup": "src/popup/popup.html"
+		"default_icon": "icons/DataBlockLogo48.png",
+		"default_popup": "index.html"
 		
 	},
 	
 	"background": { // https://developer.chrome.com/extensions/background_pages
 	
 		"scripts": [
-			"src/utils.js",
-			"src/crossBrowser.js",
-			"src/google/background.js" // do not remove
+			// "src/utils.js",
+      // "src/crossBrowser.js",
+      "background.js"
+			// "src/google/background.js" // do not remove
 			
 			//"resources/extension.min.js"
 			
@@ -52,14 +53,17 @@
 			],
 			
 			"js": [
-				"src/utils.js",
-				"src/jquery.min.js",
-				"src/crossBrowser.js",
-				"src/google/content-script.js"
+        "content-script.js"
+				// "src/utils.js",
+				// "src/jquery.min.js",
+				// "src/crossBrowser.js",
+				// "src/google/content-script.js"
 				
 				//"resources/extension.min.js" // do not remove
 				
-			],
+      ],
+      "start_url": "./index.html",
+
 			
 			"run_at": "document_end" // https://developer.chrome.com/extensions/content_scripts#run_time
 			
