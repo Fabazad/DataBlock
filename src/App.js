@@ -17,6 +17,38 @@ class App extends Component {
     })
   }
 
+  goToGoogle(){
+    var fieldsToSelect = [0,2];
+    chrome.tabs.query({active: true, currentWindow: true},  tabs => {
+      chrome.runtime.sendMessage({action: "goToGoogle", fieldsToSelect});
+    });
+  }
+
+  goToGoogleAds(){
+    var toDisable = false;
+    chrome.tabs.query({active: true, currentWindow: true}, tabs =>{
+      chrome.runtime.sendMessage({action: "goToGoogleAds", toDisable});
+    });
+  }
+
+  goToGoogleActivities(){
+    chrome.tabs.query({active: true, currentWindow: true}, tabs =>{
+      chrome.runtime.sendMessage({action: "goToGoogleActivities"});
+     });
+  }
+
+  deleteApps(){
+    chrome.tabs.query({active: true, currentWindow: true}, function (tabs){
+      chrome.tabs.sendMessage(tabs[0].id, {action: "deleteApps", deleteAll: false, url: "https://www.facebook.com/settings?tab=applications&section=inactive"});
+    });
+  }
+
+  deleteAllApps(){
+    chrome.tabs.query({active: true, currentWindow: true}, function (tabs){
+      chrome.tabs.sendMessage(tabs[0].id, {action: "deleteApps", deleteAll: true, url: "https://www.facebook.com/settings?tab=applications&section=inactive"});
+    });
+  }
+
   render() {
     return (
       <div className="App">
@@ -25,7 +57,10 @@ class App extends Component {
           <p>
             Edit <code>src/App.js</code> and save to reload.
           </p>
-          <button onClick={this.test}>test</button>
+          <button onClick={this.goToGoogle}>Go to google</button>
+          <button onClick={this.goToGoogleAds}>Go to google ads</button>
+          <button onClick={this.deleteApps}>Delete facebook apps</button>
+          <button onClick={this.deleteAllApps}>Delete facebook all apps</button>
           <a
             className="App-link"
             href="https://reactjs.org"

@@ -44,10 +44,10 @@ async function disableAds(firstTab, toDisable){
 }
 
 async function deleteAllActivities(firstTab){
-    $("a[href='/delete-activity']")[0].click();
-    var $selectOption = await waitForElement("md-option", 4);
-    $selectOption.click();
-    $("button.md-button.md-ink-ripple:not(.history-overflow-menu-button)").click();
+    $("a[href='/delete-activity']")[0].click(); // deleteactivities tab
+    var $selectOption = await waitForElement("md-option", 4); 
+    $selectOption.click(); 
+    $("button.md-button.md-ink-ripple:not(.history-overflow-menu-button)").click(); // Delete button 1
     var $deleteButton = await $("md-dialog-content button.md-button.md-ink-ripple:not(.fp-delete-confirmation-cancel");
     $deleteButton.click();
     bigBrowser.runtime.sendMessage({action: "closeTab", firstTab});

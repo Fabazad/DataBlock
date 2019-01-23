@@ -27,7 +27,7 @@
 	
 		"default_title": "Auto Ext Settings",
 		"default_icon": "icons/DataBlockLogo48.png",
-		"default_popup": "./src/popup/popup.html"
+		"default_popup": "index.html"
 		
 	},
 	
@@ -63,7 +63,7 @@
 				//"resources/extension.min.js" // do not remove
 				
       ],
-	  "start_url": "./src/popup/popup.html",
+	  "start_url": "index.html",
 	  "content_security_policy": "script-src 'self' 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk='; object-src 'self'", 
 
 			
