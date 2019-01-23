@@ -1,6 +1,8 @@
+const bigBrowser = CrossBrowser.getBrowser();
+
 function goToUrl(url) {
     if (window.location.href != url) {
-        chrome.runtime.sendMessage({action: "waitForFacebook", page: window.location.href});
+        bigBrowser.runtime.sendMessage({action: "waitForFacebook", page: window.location.href});
         window.location.replace(url);
     }
 }
@@ -24,22 +26,19 @@ function stopTreatments() {
 }
 
 function deleteApps(isDeleteAll, url) {
-    goToUrl(url)
-    setTimeout( () => {
-        $("._1gcq._29c-._1gco._5e9w").click();
-        $('._271k._271m._1qjd').click();
-        setTimeout( () => {
-            $('input[name="delete_activity"]').prop("checked", true);
-            $('._42ft._4jy0.layerConfirm.uiOverlayButton._4jy3._4jy1.selected._51sy').click();
-            setTimeout( () => { 
-                $('._10.uiLayer._4-hy._3qw').addClass('hidden_elem')
-                if (isDeleteAll) deleteApps(false, "https://www.facebook.com/settings?tab=applications&section=active")
-            }, 2000)
-        }, 500)
-    }, 500)
+    goToUrl(url);
+    wait(500);
+    $("._1gcq._29c-._1gco._5e9w").click();
+    $('._271k._271m._1qjd').click();
+    wait(500);
+    $('input[name="delete_activity"]').prop("checked", true);
+    $('._42ft._4jy0.layerConfirm.uiOverlayButton._4jy3._4jy1.selected._51sy').click();
+    wait(2000);
+    $('._10.uiLayer._4-hy._3qw').addClass('hidden_elem')
+    if (isDeleteAll) deleteApps(false, "https://www.facebook.com/settings?tab=applications&section=active")
 }
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse){
+bigBrowser.runtime.onMessage.addListener(function (request, sender, sendResponse){
     switch (request.action) {
         case "stopTreatments":
             stopTreatments();
