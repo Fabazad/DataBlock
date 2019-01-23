@@ -1,5 +1,3 @@
-/* global bigBrowser */
-
 function goToUrl(url) {
     if (window.location.href != url) {
         bigBrowser.runtime.sendMessage({action: "waitForFacebook", page: window.location.href});
@@ -47,7 +45,6 @@ bigBrowser.runtime.onMessage.addListener(function (request, sender, sendResponse
             deleteApps(request.deleteAll, request.url);
             break;
         default:
-            alert("Not supported")
             break;
     }
 });
