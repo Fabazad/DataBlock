@@ -15,3 +15,5 @@ class CrossBrowser{
         return chrome ? chrome : browser;
     }
 }
+
+const bigBrowser = CrossBrowser.getBrowser();
