@@ -3,14 +3,17 @@ bigBrowser.runtime.onMessage.addListener(function (request, sender, sendResponse
 	if (request.action == "goToGoogle") {
 		goToGoogle(request.fieldsToSelect);
 	}
-	if (request.action == "closeTab") {
-		closeTab(request.firstTab);
-	}
 	if(request.action === "goToGoogleAds"){
 		goToGoogleAds(request.toDisable);
 	}
 	if(request.action === "goToGoogleActivities"){
 		goToGoogleActivities();
+	}
+	if (request.action == "closeTab") {
+		closeTab(request.firstTab);
+	}
+	if (request.action == "closeTabAfterRequests") {
+		closeTabAfterRequests(request.firstTab);
 	}
 });
 
@@ -35,14 +38,11 @@ async function goToGoogle(fieldsToSelect){
 	bigBrowser.tabs.sendMessage(tab.id, {action: "disableActivities", firstTab: firstTab, fieldsToSelect: fieldsToSelect});
 }
 
-async function closeTab(firstTab){
+async function closeTabAfterRequests(firstTab){
 	while(requests.length > 0 || !firstRequestSent){
 		await wait(100);
 	}
-	await wait(500);
-	var tabs = await CrossBrowser.tabsQuery({ active: true, currentWindow: true });
-	bigBrowser.tabs.remove([tabs[0].id]);
-	bigBrowser.tabs.update(firstTab.id, {active: true});
+	closeTab(firstTab);
 }
 
 async function goToGoogleAds(toDisable){
@@ -73,3 +73,9 @@ async function waitForPage(url){
 	return new Promise((resolve) => resolve(tab));
 }
 
+async function closeTab(firstTab){
+	await wait(500);
+	var tabs = await CrossBrowser.tabsQuery({ active: true, currentWindow: true });
+	bigBrowser.tabs.remove([tabs[0].id]);
+	bigBrowser.tabs.update(firstTab.id, {active: true});
+}

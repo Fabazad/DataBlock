@@ -24,7 +24,7 @@ async function disableActivities(firstTab, fieldsToSelect){
     $switchToClick.click();
     await disableActivitiesBis($switchToClick.length);
     await waitForCloseElement(".HQ8yf, .HQ8yf a");
-    bigBrowser.runtime.sendMessage({action: "closeTab", firstTab});
+    bigBrowser.runtime.sendMessage({action: "closeTabAfterRequests", firstTab});
 }
 
 async function disableAds(firstTab, toDisable){
@@ -50,7 +50,7 @@ async function deleteAllActivities(firstTab){
     $("button.md-button.md-ink-ripple:not(.history-overflow-menu-button)").click(); // Delete button 1
     var $deleteButton = await $("md-dialog-content button.md-button.md-ink-ripple:not(.fp-delete-confirmation-cancel");
     $deleteButton.click();
-    bigBrowser.runtime.sendMessage({action: "closeTab", firstTab});
+    bigBrowser.runtime.sendMessage({action: "closeTabAfterRequests", firstTab});
 }
 
 // UTILS
