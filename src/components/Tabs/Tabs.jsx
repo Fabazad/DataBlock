@@ -32,7 +32,7 @@ class Tabs extends React.Component {
                         className={this.state.activeTab === '1' ? 'active':''}
                         onClick={() => { this.toggle('1'); }}
                         >
-                            Home
+                            Google
                     </NavLink>
                 </NavItem>
                 <NavItem>
@@ -40,7 +40,7 @@ class Tabs extends React.Component {
                         className={this.state.activeTab === '2' ? 'active':''}
                         onClick={() => { this.toggle('2'); }}
                     >
-                        Updates
+                        Facebook
                     </NavLink>
                 </NavItem>
                 <NavItem>
@@ -48,7 +48,7 @@ class Tabs extends React.Component {
                         className={this.state.activeTab === '3' ? 'active':''}
                         onClick={() => { this.toggle('3'); }}
                     >
-                        History
+                        Cookies
                     </NavLink>
                 </NavItem>
             </Nav>

@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Tabs from './components/Tabs';
+import Tabs from './components/Tabs/Tabs';
 import ButtonTest from './components/ButtonTest';
 
 
@@ -60,11 +60,14 @@ class App extends Component {
           <p>
             Edit <code>src/App.js</code> and save to reload.
           </p>
+          <div><Tabs /></div>
           <button onClick={this.goToGoogle}>Go to google</button>
           <button onClick={this.goToGoogleAds}>Go to google ads</button>
           <button onClick={this.deleteApps}>Delete facebook apps</button>
           <button onClick={this.deleteAllApps}>Delete facebook all apps</button>
           <div><ButtonTest /></div>
+          
+
           <a
             className="App-link"
             href="https://reactjs.org"
