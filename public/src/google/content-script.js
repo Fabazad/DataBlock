@@ -58,7 +58,8 @@ async function deleteAllActivities(firstTab){
 async function disableActivitiesBis(numActivedSwitches){
     var $divsToScroll = $(".ETZ0Vd");
     var $buttons = $(".HQ8yf, .HQ8yf a");
-    while($buttons.length < numActivedSwitches){
+    
+    while($buttons.length < numActivedSwitches || sameCss($buttons, "color", "rgba(68, 68, 68, 0.5)")){
         await wait(100);
         $divsToScroll = $(".ETZ0Vd");
         $buttons = $(".HQ8yf, .HQ8yf a");
@@ -67,9 +68,6 @@ async function disableActivitiesBis(numActivedSwitches){
         $($divsToScroll.get(index)).scrollTop(1000);
     });
     await wait(100);
-    return new Promise((resolve, reject)=> {
-        $buttons.click();
-        resolve();
-    });
+    $buttons.click();
+    return Promise.resolve();
 }
-

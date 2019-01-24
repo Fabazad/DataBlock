@@ -17,3 +17,14 @@ async function waitForCloseElement(selector){
     }
     return Promise.resolve();
 }
+
+function sameCss($elements, property, value){
+    if(typeof $elements === "string"){
+        $elements = $($elements);
+    }
+    var result = true;
+    $elements.each((i) => {
+        result = result && $($elements.get(i)).css(property) === value;
+    });
+    return result;
+}
