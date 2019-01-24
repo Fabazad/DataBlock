@@ -28,18 +28,20 @@ async function disableActivities(firstTab, fieldsToSelect){
 }
 
 async function disableAds(firstTab, toDisable){
-    if(toDisable){
-        $(".hh4xKf.MLPG7").click();
+    var $disableSwitch = $(".LsSwGf.vBNbwc.N2RpBe");
+    var $enableSwitch = $(".LsSwGf.vBNbwc:not(.N2RpBe)");
+    if(toDisable && $disableSwitch.length){
+        $disableSwitch.click();
         var $disableButton = await waitForElement(".U26fgb.O0WRkf.oG5Srb.HQ8yf.C0oVfc.ffRi5e.sZ7lgc");
         $disableButton.click();
+        await waitForElement(".U26fgb.O0WRkf.oG5Srb.HQ8yf.C0oVfc.ffRi5e.sZ7lgc.M9Bg4d");
     }
-    else{
-        $(".hh4xKf.MLPG7").click();
+    else if($enableSwitch.length){
+        $enableSwitch.click();
         var $enableButton = await waitForElement(".U26fgb.O0WRkf.oG5Srb.HQ8yf.C0oVfc.ffRi5e.RBTGZe");
         $enableButton.click();
-        
+        await waitForElement(".U26fgb.O0WRkf.oG5Srb.HQ8yf.C0oVfc.ffRi5e.sZ7lgc.M9Bg4d");
     }
-    await waitForElement(".U26fgb.O0WRkf.oG5Srb.HQ8yf.C0oVfc.ffRi5e.sZ7lgc.M9Bg4d");
     bigBrowser.runtime.sendMessage({action: "closeTab", firstTab});
 }
 
