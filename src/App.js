@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Tabs from './components/Tabs';
+import ButtonTest from './components/ButtonTest';
+
 
 class App extends Component {
 
@@ -62,7 +64,7 @@ class App extends Component {
           <button onClick={this.goToGoogleAds}>Go to google ads</button>
           <button onClick={this.deleteApps}>Delete facebook apps</button>
           <button onClick={this.deleteAllApps}>Delete facebook all apps</button>
-          <div><Tabs /></div>
+          <div><ButtonTest /></div>
           <a
             className="App-link"
             href="https://reactjs.org"
