@@ -9,6 +9,9 @@ bigBrowser.runtime.onMessage.addListener(function (request, sender, sendResponse
     if(request.action === "deleteAllActivity"){
         deleteAllActivities(request.firstTab);
     }
+    if(request.action === "deleteAllPositions"){
+        deleteAllPositions(request.firstTab);
+    }
 });
 
 // MAINS
@@ -50,9 +53,20 @@ async function deleteAllActivities(firstTab){
     var $selectOption = await waitForElement("md-option", 4); 
     $selectOption.click(); 
     $("button.md-button.md-ink-ripple:not(.history-overflow-menu-button)").click(); // Delete button 1
-    var $deleteButton = await $("md-dialog-content button.md-button.md-ink-ripple:not(.fp-delete-confirmation-cancel");
+    var $deleteButton = await waitForElement("md-dialog-content button.md-button.md-ink-ripple:not(.fp-delete-confirmation-cancel");
     $deleteButton.click();
+    await wait(100);
     bigBrowser.runtime.sendMessage({action: "closeTabAfterRequests", firstTab});
+}
+
+async function deleteAllPositions(firstTab){
+    var $binButton = await waitForElement(".delete-button.delete-all-button.invalidate-fade.material-icons-extended.material-icon-with-ripple"); // delete/bin button
+    $binButton.click();
+    var $checkbox = await waitForElement(".modal-dialog .goog-checkbox");
+    $checkbox.click();
+    $("button.delete-button").click()
+    await waitForElement(".modal-dialog button.goog-buttonset-default");
+    bigBrowser.runtime.sendMessage({action: "closeTab", firstTab});
 }
 
 // UTILS

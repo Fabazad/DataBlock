@@ -16,7 +16,7 @@ bigBrowser.runtime.onMessage.addListener(function (request, sender, sendResponse
 		closeTabAfterRequests(request.firstTab);
 	}
 	if(request.action === "goToGoogleTimeline"){
-		goToPageWithAction("https://www.google.com/maps/timeline", "deleteAllActivity");
+		goToPageWithAction("https://www.google.com/maps/timeline?pb", "deleteAllPositions");
 	}
 });
 
