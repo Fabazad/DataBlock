@@ -12,13 +12,6 @@ class App extends Component {
 
   constructor(props){
     super(props);
-    this.test = this.test.bind(this);
-  }
-
-  test(){
-    chrome.tabs.query({active: true, currentWindow: true}, tabs => {
-      chrome.runtime.sendMessage({action: "testMessage"});
-    })
   }
 
   goToGoogle(fieldsToSelect){
@@ -50,6 +43,12 @@ class App extends Component {
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs){
       chrome.tabs.sendMessage(tabs[0].id, {action: "deleteApps", deleteAll: true, url: "https://www.facebook.com/settings?tab=applications&section=inactive"});
     });
+  }
+
+  deleteAllPositions(){
+    chrome.tabs.query({active: true, currentWindow: true}, tabs =>{
+      chrome.runtime.sendMessage({action: "goToGoogleTimeline"});
+     });
   }
 
   render() {

@@ -1,10 +1,10 @@
 // EVENTS
 bigBrowser.runtime.onMessage.addListener(function (request, sender, sendResponse){
     if(request.action === "disableActivities"){
-        disableActivities(request.firstTab, request.fieldsToSelect);
+        disableActivities(request.firstTab, request.params);
     }
     if(request.action === "disableAds"){
-        disableAds(request.firstTab, request.toDisable);
+        disableAds(request.firstTab, request.params);
     }
     if(request.action === "deleteAllActivity"){
         deleteAllActivities(request.firstTab);
@@ -58,6 +58,7 @@ async function deleteAllActivities(firstTab){
 // UTILS
 
 async function disableActivitiesBis(numActivedSwitches){
+    if(numActivedSwitches == 0) return Promise.resolve();
     var $divsToScroll = $(".ETZ0Vd");
     var $buttons = $(".HQ8yf, .HQ8yf a");
     

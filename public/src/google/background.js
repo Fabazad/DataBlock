@@ -1,19 +1,22 @@
 // EVENTS
 bigBrowser.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	if (request.action == "goToGoogle") {
-		goToGoogle(request.fieldsToSelect);
+		goToPageWithAction("https://myaccount.google.com/activitycontrols", "disableActivities", request.fieldsToSelect);
 	}
 	if(request.action === "goToGoogleAds"){
-		goToGoogleAds(request.toDisable);
+		goToPageWithAction("https://adssettings.google.com/authenticated", "disableAds", request.toDisable);
 	}
 	if(request.action === "goToGoogleActivities"){
-		goToGoogleActivities();
+		goToPageWithAction("https://myactivity.google.com/myactivity", "deleteAllActivity");
 	}
 	if (request.action == "closeTab") {
 		closeTab(request.firstTab);
 	}
 	if (request.action == "closeTabAfterRequests") {
 		closeTabAfterRequests(request.firstTab);
+	}
+	if(request.action === "goToGoogleTimeline"){
+		goToPageWithAction("https://www.google.com/maps/timeline", "deleteAllActivity");
 	}
 });
 
@@ -30,14 +33,6 @@ bigBrowser.webRequest.onCompleted.addListener((request)=>{
 
 // MAINS
 
-async function goToGoogle(fieldsToSelect){
-	var tabs = await CrossBrowser.tabsQuery({ active: true, currentWindow: true });
-	var firstTab = tabs[0];
-	await bigBrowser.tabs.create({url: "https://myaccount.google.com/activitycontrols"});
-	var tab = await waitForPage("https://myaccount.google.com/activitycontrols");
-	bigBrowser.tabs.sendMessage(tab.id, {action: "disableActivities", firstTab: firstTab, fieldsToSelect: fieldsToSelect});
-}
-
 async function closeTabAfterRequests(firstTab){
 	while(requests.length > 0 || !firstRequestSent){
 		await wait(100);
@@ -45,20 +40,12 @@ async function closeTabAfterRequests(firstTab){
 	closeTab(firstTab);
 }
 
-async function goToGoogleAds(toDisable){
+async function goToPageWithAction(url, action, params = null){
 	var tabs = await CrossBrowser.tabsQuery({ active: true, currentWindow: true });
 	var firstTab = tabs[0];
-	await bigBrowser.tabs.create({url: "https://adssettings.google.com/authenticated"});
-	var tab = await waitForPage("https://adssettings.google.com/authenticated");
-	bigBrowser.tabs.sendMessage(tab.id, {action: "disableAds", firstTab: firstTab, toDisable: toDisable});
-}
-
-async function goToGoogleActivities(){
-	var tabs = await CrossBrowser.tabsQuery({ active: true, currentWindow: true });
-	var firstTab = tabs[0];
-	await bigBrowser.tabs.create({url: "https://myactivity.google.com/myactivity"});
-	var tab = await waitForPage("https://myactivity.google.com/myactivity");
-	bigBrowser.tabs.sendMessage(tab.id, {action: "deleteAllActivity", firstTab: firstTab});
+	await bigBrowser.tabs.create({url});
+	var tab = await waitForPage(url);
+	bigBrowser.tabs.sendMessage(tab.id, {action, firstTab, params});
 }
 
 // UTILS
