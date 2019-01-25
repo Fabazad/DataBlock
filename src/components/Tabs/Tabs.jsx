@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { Nav, NavItem, NavLink, Card, CardHeader, CardBody, TabPane, TabContent } from 'reactstrap';
+import { Nav, NavItem, NavLink, Card, CardHeader, CardBody, TabPane, TabContent, FormGroup, Label, Input} from 'reactstrap';
+import GoogleTab from './GoogleTab/GoogleTab.jsx';
+import FacebookTab from './FacebookTab/FacebookTab.jsx';
+import CookieTab from './CookieTab/CookieTab.jsx';
+
 
 
 
@@ -23,10 +27,10 @@ class Tabs extends React.Component {
         }
     }
   render() {
-    return (
+    return (<div>
         <Card className="card-plain">
         <CardHeader>
-            <Nav tabs>
+            <Nav tabs className="justify-content-center">
                 <NavItem>
                     <NavLink
                         className={this.state.activeTab === '1' ? 'active':''}
@@ -56,17 +60,20 @@ class Tabs extends React.Component {
         <CardBody>
             <TabContent activeTab={this.state.activeTab} className="text-center">
                 <TabPane tabId="1">
-                    <p>I think that's a responsibility that I have, to push possibilities, to show people, this is the level that things could be at. So when you get something that has the name Kanye West on it, it's supposed to be pushing the furthest possibilities. I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus.</p>
-                </TabPane>
+                <GoogleTab />
+                
+                 </TabPane>
                 <TabPane tabId="2">
-                    <p> I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that's a responsibility that I have, to push possibilities, to show people, this is the level that things could be at. I think that's a responsibility that I have, to push possibilities, to show people, this is the level that things could be at. </p>
-                </TabPane>
+                <FacebookTab />              
+                    </TabPane>
                 <TabPane tabId="3">
-                    <p> I think that's a responsibility that I have, to push possibilities, to show people, this is the level that things could be at. I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that's a responsibility that I have, to push possibilities, to show people, this is the level that things could be at.</p>
-                </TabPane>
+                <CookieTab />              
+
+                       </TabPane>
             </TabContent>
         </CardBody>
     </Card>
+    </div>
     )
   }
 }

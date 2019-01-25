@@ -1,10 +1,12 @@
 /* global chrome */
 
 import React, { Component } from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
+import logo from './icons/DataBlockLogo.png';
 import './App.css';
 import Tabs from './components/Tabs/Tabs';
 import ButtonTest from './components/ButtonTest';
+import { Button } from "reactstrap";
 
 
 class App extends Component {
@@ -57,26 +59,16 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <div><Tabs /></div>
-          <button onClick={this.goToGoogle}>Go to google</button>
-          <button onClick={this.goToGoogleAds}>Go to google ads</button>
-          <button onClick={this.deleteApps}>Delete facebook apps</button>
-          <button onClick={this.deleteAllApps}>Delete facebook all apps</button>
-          <div><ButtonTest /></div>
-          
-
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+          <p>Data Block</p>
+          </header>
+          <body className="App-body">
+          <div className="tabs-container"><Tabs /></div>
+          <Button color="primary" onClick={this.goToGoogle}>Go to google</Button>
+          <Button color="primary" onClick={this.goToGoogleAds}>Go to google ads</Button>
+          <Button color="danger" onClick={this.deleteApps}>Delete facebook apps</Button>
+          <Button color="danger" onClick={this.deleteAllApps}>Delete facebook all apps</Button>
+          </body>
+        
       </div>
     );
   }

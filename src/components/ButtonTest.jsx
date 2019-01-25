@@ -5,9 +5,6 @@ import { DropdownToggle, DropdownMenu, DropdownItem, UncontrolledButtonDropdown 
 import Button from '../paper-dashboard-react/src/components/CustomButton/CustomButton.jsx';
 
 
-
-
-
 class ButtonTest extends React.Component {
 
     constructor(props) {
