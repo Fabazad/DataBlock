@@ -2,10 +2,9 @@
 
 import React, { Component } from 'react';
 // import logo from './logo.svg';
-import logo from './icons/DataBlockLogo.png';
+import logo from './assets/icons/DataBlockLogo.png';
 import './App.css';
 import Tabs from './components/Tabs/Tabs';
-import ButtonTest from './components/ButtonTest';
 import { Button } from "reactstrap";
 
 
