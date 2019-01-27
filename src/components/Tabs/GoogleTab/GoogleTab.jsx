@@ -25,22 +25,22 @@ class GoogleTab extends Component {
             deleteDataChecked:[],
             handleDataChecked:[],
             handleDataForm: [
-                { position: 0, value: "Personnalisation des publicités" },
-                { position: 1, value: "Activité sur le Web et les applications" },
-                { position: 2, value: "Historique des positions" },
-                { position: 3, value: "Informations provenant des appareils" },
-                { position: 4, value: "Activité vocale et audio" },
-                { position: 5, value: "Historique des recherches YouTube" },
-                { position: 6, value: "Historique des vidéos regardées sur YouTube" }
+                { position: 0, value: "Activité sur le Web et les applications" },
+                { position: 1, value: "Historique des positions" },
+                { position: 2, value: "Informations provenant des appareils" },
+                { position: 3, value: "Activité vocale et audio" },
+                { position: 4, value: "Historique des recherches YouTube" },
+                { position: 5, value: "Historique des vidéos regardées sur YouTube" },
+                { position: 6, value: "Personnalisation des publicités" }
              ],
             deleteDataForm: [
-                { position: 0, value: "Centres d'intérêt" },
-                { position: 1, value: "Activité sur le Web et les applications" },
-                { position: 2, value: "Historique des positions" },
-                { position: 3, value: "Informations provenant des appareils" },
-                { position: 4, value: "Activité vocale et audio" },
-                { position: 5, value: "Historique des recherches YouTube" },
-                { position: 6, value: "Historique des vidéos regardées sur YouTube" }
+                { position: 0, value: "Activité sur le Web et les applications" },
+                { position: 1, value: "Historique des positions" },
+                { position: 2, value: "Informations provenant des appareils" },
+                { position: 3, value: "Activité vocale et audio" },
+                { position: 4, value: "Historique des recherches YouTube" },
+                { position: 5, value: "Historique des vidéos regardées sur YouTube" },
+                { position: 6, value: "Centres d'intérêt" }
         ]
         }
         
@@ -50,10 +50,13 @@ class GoogleTab extends Component {
 
     handleData(handleDataChecked){
         // Send the value to container OR directly trigger the back function?
+        // If handleDataChecked.includes(6) : triggers special function
 
     }
     deleteData(deleteDataChecked){
         // Send the value to container OR directly trigger the back function?
+        // If deleteDataChecked.includes(6) : triggers special function
+
     }
 
 
