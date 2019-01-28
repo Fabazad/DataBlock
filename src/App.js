@@ -1,5 +1,6 @@
 /* global chrome */
 
+
 import React, { Component } from 'react';
 // import logo from './logo.svg';
 import logo from './assets/icons/DataBlockLogo.png';
@@ -14,14 +15,27 @@ class App extends Component {
     super(props);
   }
 
+  componentDidMount(){
+    chrome.runtime.onMessage.addListener(
+      function(request, sender, sendResponse) {
+          if (request.msg === "action_completed") {
+              //  To do something
+              alert("Tab closed")
+              console.log("REQUEST MSG subject" + request.data.subject)
+              console.log("REQUEST MSG content" + request.data.content)
+          }
+      }
+    );
+  }
+
   goToGoogle(fieldsToSelect){
     chrome.tabs.query({active: true, currentWindow: true},  tabs => {
       chrome.runtime.sendMessage({action: "goToGoogle", fieldsToSelect});
     });
   }
 
-  goToGoogleAds(){
-    var toDisable = false;
+  goToGoogleAds(toDisable){
+    console.log("Disable google ads:" + toDisable)
     chrome.tabs.query({active: true, currentWindow: true}, tabs =>{
       chrome.runtime.sendMessage({action: "goToGoogleAds", toDisable});
     });
@@ -62,6 +76,7 @@ class App extends Component {
           <div className="tabs-container">
           <Tabs 
             goToGoogle={(fieldsToSelect) => this.goToGoogle(fieldsToSelect)}
+            goToGoogleAds={(toDisable) => this.goToGoogleAds(toDisable)}
           /></div>
           <Button color="primary" onClick={this.goToGoogle}>Go to google</Button>
           <Button color="primary" onClick={this.goToGoogleAds}>Go to google ads</Button>

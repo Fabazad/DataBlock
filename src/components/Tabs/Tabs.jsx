@@ -61,7 +61,10 @@ class Tabs extends React.Component {
             <TabContent activeTab={this.state.activeTab} className="text-center">
                 <TabPane tabId="1">
                 <GoogleTab 
-                goToGoogle={(fieldsToSelect) => this.props.goToGoogle(fieldsToSelect)}/>
+                goToGoogle={(fieldsToSelect) => this.props.goToGoogle(fieldsToSelect)}
+                goToGoogleAds={(toDisable) => this.props.goToGoogleAds(toDisable)}
+
+                />
                 
                  </TabPane>
                 <TabPane tabId="2">

@@ -49,17 +49,16 @@ class GoogleTab extends Component {
     
 
     handleData(handleDataChecked){
-        // Send the value to container OR directly trigger the back function?
-        // If handleDataChecked.includes(6) : triggers special function
         console.log("GO TO GOOGLE: " + handleDataChecked)
-
-        return this.props.goToGoogle(handleDataChecked)
+        handleDataChecked.includes(6) 
+        ? 
+        this.props.goToGoogleAds(false) && this.props.goToGoogle(handleDataChecked)
+        :
+        this.props.goToGoogleAds(true) && this.props.goToGoogle(handleDataChecked)
         
 
     }
     deleteData(deleteDataChecked){
-        // Send the value to container OR directly trigger the back function?
-        // If deleteDataChecked.includes(6) : triggers special function
 
     }
 
@@ -179,11 +178,9 @@ class GoogleTab extends Component {
             </span>
             </Label>)}
         </FormGroup>
-        <Button type="submit" color="success" onClick={this.deleteData(this.state.deleteDataChecked)}>Valider</Button>
+        <Button type="submit" color="success" onClick={() => this.deleteData(this.state.deleteDataChecked)}>Valider</Button>
         </form>   
         </div>
-        {/* <Button color="primary" onClick={this.props.goToGoogle(this.state.handleDataChecked)}>Go to google</Button> */}
-
         </div>
 
   );

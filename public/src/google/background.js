@@ -53,7 +53,7 @@ async function goToPageWithAction(url, action, params = null){
 async function waitForPage(url){
 	var tabs = await CrossBrowser.tabsQuery({ active: true, currentWindow: true });
 	var tab = tabs[0];
-	while(tab.url != url || tab.status != "complete"){
+	while(!tab || tab.url != url || tab.status != "complete"){
 		tabs = await CrossBrowser.tabsQuery({ active: true, currentWindow: true });
 		tab = tabs[0];	
 	}
@@ -63,6 +63,13 @@ async function waitForPage(url){
 async function closeTab(firstTab){
 	await wait(500);
 	var tabs = await CrossBrowser.tabsQuery({ active: true, currentWindow: true });
+	bigBrowser.runtime.sendMessage({
+		msg: "action_completed", 
+		data: {
+			subject: "Loading",
+			content: "Just completed!"
+		}
+	});	
 	bigBrowser.tabs.remove([tabs[0].id]);
 	bigBrowser.tabs.update(firstTab.id, {active: true});
 }
