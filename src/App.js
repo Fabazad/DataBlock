@@ -21,8 +21,7 @@ class App extends Component {
     })
   }
 
-  goToGoogle(){
-    var fieldsToSelect = [0,2];
+  goToGoogle(fieldsToSelect){
     chrome.tabs.query({active: true, currentWindow: true},  tabs => {
       chrome.runtime.sendMessage({action: "goToGoogle", fieldsToSelect});
     });
@@ -61,7 +60,10 @@ class App extends Component {
           <p>Data Block</p>
           </header>
           <body className="App-body">
-          <div className="tabs-container"><Tabs /></div>
+          <div className="tabs-container">
+          <Tabs 
+            goToGoogle={(fieldsToSelect) => this.goToGoogle(fieldsToSelect)}
+          /></div>
           <Button color="primary" onClick={this.goToGoogle}>Go to google</Button>
           <Button color="primary" onClick={this.goToGoogleAds}>Go to google ads</Button>
           <Button color="danger" onClick={this.deleteApps}>Delete facebook apps</Button>

@@ -60,7 +60,8 @@ class Tabs extends React.Component {
         <CardBody>
             <TabContent activeTab={this.state.activeTab} className="text-center">
                 <TabPane tabId="1">
-                <GoogleTab />
+                <GoogleTab 
+                goToGoogle={(fieldsToSelect) => this.props.goToGoogle(fieldsToSelect)}/>
                 
                  </TabPane>
                 <TabPane tabId="2">

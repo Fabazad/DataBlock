@@ -22,8 +22,8 @@ class GoogleTab extends Component {
 
 
         this.state = {
-            deleteDataChecked:[],
             handleDataChecked:[],
+            deleteDataChecked:[],
             handleDataForm: [
                 { position: 0, value: "Activité sur le Web et les applications" },
                 { position: 1, value: "Historique des positions" },
@@ -51,6 +51,10 @@ class GoogleTab extends Component {
     handleData(handleDataChecked){
         // Send the value to container OR directly trigger the back function?
         // If handleDataChecked.includes(6) : triggers special function
+        console.log("GO TO GOOGLE: " + handleDataChecked)
+
+        return this.props.goToGoogle(handleDataChecked)
+        
 
     }
     deleteData(deleteDataChecked){
@@ -154,7 +158,7 @@ class GoogleTab extends Component {
             </span>
             </Label>)}
         </FormGroup>
-        <Button type="submit" color="success" onClick={this.handleData(this.state.handleDataChecked)}>Valider</Button>
+        <Button type="submit" color="success" onClick={() => this.handleData(this.state.handleDataChecked)}>Valider</Button>
         </form>   
         </div>
         <div className="google-form"><p>Supprimer les données existantes</p>
@@ -178,7 +182,10 @@ class GoogleTab extends Component {
         <Button type="submit" color="success" onClick={this.deleteData(this.state.deleteDataChecked)}>Valider</Button>
         </form>   
         </div>
+        {/* <Button color="primary" onClick={this.props.goToGoogle(this.state.handleDataChecked)}>Go to google</Button> */}
+
         </div>
+
   );
         }
 
