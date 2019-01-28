@@ -34,6 +34,7 @@
 	"background": { // https://developer.chrome.com/extensions/background_pages
 	
 		"scripts": [
+			"./src/jquery.min.js",
 			"./src/utils.js",
       		"./src/crossBrowser.js",
 			"./src/google/background.js",

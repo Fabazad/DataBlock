@@ -4,19 +4,19 @@ bigBrowser.runtime.onMessage.addListener(function (request, sender, sendResponse
 		goToPageWithAction("https://myaccount.google.com/activitycontrols", "disableActivities", request.fieldsToSelect);
 	}
 	if(request.action === "goToGoogleAds"){
-		goToPageWithAction("https://adssettings.google.com/authenticated", "disableAds", request.toDisable);
+		openWorkingTab("https://adssettings.google.com/authenticated", "disableAds", request.toDisable);
 	}
 	if(request.action === "goToGoogleActivities"){
-		goToPageWithAction("https://myactivity.google.com/myactivity", "deleteAllActivity");
+		openWorkingTab("https://myactivity.google.com/myactivity", "deleteAllActivity");
 	}
 	if (request.action == "closeTab") {
-		closeTab(request.firstTab);
+		closeTab(request.firstTab, request.workingTab);
 	}
 	if (request.action == "closeTabAfterRequests") {
-		closeTabAfterRequests(request.firstTab);
+		closeTabAfterRequests(request.firstTab, request.workingTab);
 	}
 	if(request.action === "goToGoogleTimeline"){
-		goToPageWithAction("https://www.google.com/maps/timeline?pb", "deleteAllPositions");
+		openWorkingTab("https://www.google.com/maps/timeline?pb", "deleteAllPositions");
 	}
 });
 
@@ -33,19 +33,29 @@ bigBrowser.webRequest.onCompleted.addListener((request)=>{
 
 // MAINS
 
-async function closeTabAfterRequests(firstTab){
+async function closeTabAfterRequests(firstTab, workingTab){
 	while(requests.length > 0 || !firstRequestSent){
 		await wait(100);
 	}
-	closeTab(firstTab);
+	closeTab(firstTab, workingTab);
 }
 
 async function goToPageWithAction(url, action, params = null){
 	var tabs = await CrossBrowser.tabsQuery({ active: true, currentWindow: true });
 	var firstTab = tabs[0];
-	await bigBrowser.tabs.create({url});
-	var tab = await waitForPage(url);
-	bigBrowser.tabs.sendMessage(tab.id, {action, firstTab, params});
+	await bigBrowser.tabs.create({url, active: true});
+	var tabs = await CrossBrowser.tabsQuery({ currentWindow: true, url });
+	var tab = tabs[0];
+	await waitForPage(tab, url);
+	bigBrowser.tabs.sendMessage(tab.id, {action, firstTab, workingTab: null, params});
+}
+
+async function openWorkingTab(url, action, params = nuls){
+	await bigBrowser.tabs.create({url, active: false});
+	var tabs = await CrossBrowser.tabsQuery({ currentWindow: true, url });
+	var tab = tabs[0];
+	await waitForPage(tab, url);
+	bigBrowser.tabs.sendMessage(tab.id, {action, firstTab: null, workingTab: tab, params});
 }
 
 // UTILS
@@ -57,12 +67,19 @@ async function waitForPage(url){
 		tabs = await CrossBrowser.tabsQuery({ active: true, currentWindow: true });
 		tab = tabs[0];	
 	}
-	return new Promise((resolve) => resolve(tab));
+	return new Promise((resolve) => resolve());
 }
 
-async function closeTab(firstTab){
+async function closeTab(firstTab, workingTab){
 	await wait(500);
-	var tabs = await CrossBrowser.tabsQuery({ active: true, currentWindow: true });
+	if(workingTab){
+		bigBrowser.tabs.remove([workingTab.id]);
+	}
+	else{
+		var tabs = await CrossBrowser.tabsQuery({ active: true, currentWindow: true });
+		bigBrowser.tabs.remove([tabs[0].id]);
+		bigBrowser.tabs.update(firstTab.id, {active: true});
+	}
 	bigBrowser.runtime.sendMessage({
 		msg: "action_completed", 
 		data: {
@@ -70,6 +87,4 @@ async function closeTab(firstTab){
 			content: "Just completed!"
 		}
 	});	
-	bigBrowser.tabs.remove([tabs[0].id]);
-	bigBrowser.tabs.update(firstTab.id, {active: true});
 }
