@@ -18,6 +18,9 @@ bigBrowser.runtime.onMessage.addListener(function (request, sender, sendResponse
 	if(request.action === "goToGoogleTimeline"){
 		openWorkingTab("https://www.google.com/maps/timeline?pb", "deleteAllPositions");
 	}
+	if(request.action === "synchroGoogle"){
+		openWorkingTab("https://myaccount.google.com/activitycontrols", "getDisableActivities");
+	}
 });
 
 var requests = [];
@@ -43,29 +46,24 @@ async function closeTabAfterRequests(firstTab, workingTab){
 async function goToPageWithAction(url, action, params = null){
 	var tabs = await CrossBrowser.tabsQuery({ active: true, currentWindow: true });
 	var firstTab = tabs[0];
-	await bigBrowser.tabs.create({url, active: true});
-	var tabs = await CrossBrowser.tabsQuery({ currentWindow: true, url });
-	var tab = tabs[0];
-	await waitForPage(tab, url);
+	var tab = await CrossBrowser.tabsCreate({url, active: true});
+	await waitForPage(tab);
 	bigBrowser.tabs.sendMessage(tab.id, {action, firstTab, workingTab: null, params});
 }
 
-async function openWorkingTab(url, action, params = nuls){
-	await bigBrowser.tabs.create({url, active: false});
-	var tabs = await CrossBrowser.tabsQuery({ currentWindow: true, url });
-	var tab = tabs[0];
-	await waitForPage(tab, url);
+async function openWorkingTab(url, action, params = null){
+	var tab = await CrossBrowser.tabsCreate({url, active: false});
+	await waitForPage(tab);
+	
 	bigBrowser.tabs.sendMessage(tab.id, {action, firstTab: null, workingTab: tab, params});
 }
 
 // UTILS
 
-async function waitForPage(url){
-	var tabs = await CrossBrowser.tabsQuery({ active: true, currentWindow: true });
-	var tab = tabs[0];
-	while(!tab || tab.url != url || tab.status != "complete"){
-		tabs = await CrossBrowser.tabsQuery({ active: true, currentWindow: true });
-		tab = tabs[0];	
+async function waitForPage(tab){
+	while(tab.status != "complete"){
+		await wait(100);
+		tab = await CrossBrowser.tabsGet(tab.id);	
 	}
 	return new Promise((resolve) => resolve());
 }
@@ -81,7 +79,7 @@ async function closeTab(firstTab, workingTab){
 		bigBrowser.tabs.update(firstTab.id, {active: true});
 	}
 	bigBrowser.runtime.sendMessage({
-		msg: "action_completed", 
+		action: "action_completed", 
 		data: {
 			subject: "Loading",
 			content: "Just completed!"

@@ -16,6 +16,10 @@ bigBrowser.runtime.onMessage.addListener(async function (request, sender, sendRe
         await deleteAllPositions();
         bigBrowser.runtime.sendMessage({action: "closeTab", firstTab: request.firstTab, workingTab: request.workingTab});
     }
+    if(request.action === "getDisableActivities"){
+        getDisableActivities();
+        bigBrowser.runtime.sendMessage({action: "closeTab", firstTab: request.firstTab, workingTab: request.workingTab});
+    }
 });
 
 // MAINS
@@ -72,6 +76,17 @@ async function deleteAllPositions(){
     $("button.delete-button").click()
     await waitForElement(".modal-dialog button.goog-buttonset-default");
     return Promise.resolve()
+}
+
+function getDisableActivities(){
+    var $allSwitches = $(".LsSwGf.PciPcd");
+    var selectedSwitches = [];
+    $allSwitches.each((i,s) => {
+        if(s === $allSwitches[i] && $($allSwitches[i]).hasClass('N2RpBe')){
+            selectedSwitches.push(i)
+        }
+    });
+    bigBrowser.runtime.sendMessage({action: "disableActivities", selectedSwitches});
 }
 
 // UTILS

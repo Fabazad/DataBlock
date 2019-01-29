@@ -1,4 +1,5 @@
 /* global chrome */
+/* global bigBrowser */
 
 
 import React, { Component } from 'react';
@@ -13,16 +14,22 @@ class App extends Component {
 
   constructor(props){
     super(props);
+    this.state = {
+      collectedActivities: []
+    }
   }
 
   componentDidMount(){
-    chrome.runtime.onMessage.addListener(
+    bigBrowser.runtime.onMessage.addListener(
       function(request, sender, sendResponse) {
-          if (request.msg === "action_completed") {
+          if (request.action === "action_completed") {
               //  To do something
-              alert("Tab closed")
+              alert("Tab closed");
               console.log("REQUEST MSG subject" + request.data.subject)
               console.log("REQUEST MSG content" + request.data.content)
+          }
+          if(request.action === "disableActivities"){
+            this.setState({collectedActivities: request.selectedSwitches});
           }
       }
     );
@@ -36,9 +43,7 @@ class App extends Component {
 
   goToGoogleAds(toDisable){
     console.log("Disable google ads:" + toDisable)
-    chrome.tabs.query({active: true, currentWindow: true}, tabs =>{
-      chrome.runtime.sendMessage({action: "goToGoogleAds", toDisable});
-    });
+    chrome.runtime.sendMessage({action: "goToGoogleAds", toDisable});
   }
 
   goToGoogleActivities(){
@@ -65,14 +70,18 @@ class App extends Component {
      });
   }
 
+  synchroGoogle(){
+    chrome.runtime.sendMessage({action: "synchroGoogle"});
+  }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>Data Block</p>
-          </header>
-          <body className="App-body">
+        </header>
+        <body className="App-body">
           <div className="tabs-container">
           <Tabs 
             goToGoogle={(fieldsToSelect) => this.goToGoogle(fieldsToSelect)}

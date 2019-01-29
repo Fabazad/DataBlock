@@ -12,6 +12,7 @@
 	
 	"permissions": [ // https://developer.chrome.com/extensions/declare_permissions
 		"tabs",
+		"activeTab",
 		"webRequest",
 		"<all_urls>"
 	],
