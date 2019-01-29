@@ -19,9 +19,11 @@ class GoogleTab extends Component {
         this.onCheckDeleteData = this.onCheckDeleteData.bind(this)
         this.onCheckAllHandle = this.onCheckAllHandle.bind(this)
         this.onCheckAllDelete = this.onCheckAllDelete.bind(this)
+        this.customAds = this.customAds.bind(this)
 
 
         this.state = {
+            customAds:false,
             handleDataChecked:[],
             deleteDataChecked:[],
             handleDataForm: [
@@ -30,9 +32,8 @@ class GoogleTab extends Component {
                 { position: 2, value: "Informations provenant des appareils" },
                 { position: 3, value: "Activité vocale et audio" },
                 { position: 4, value: "Historique des recherches YouTube" },
-                { position: 5, value: "Historique des vidéos regardées sur YouTube" },
-                { position: 6, value: "Personnalisation des publicités" }
-             ],
+                { position: 5, value: "Historique des vidéos regardées sur YouTube" }
+                         ],
             deleteDataForm: [
                 { position: 0, value: "Activité sur le Web et les applications" },
                 { position: 1, value: "Historique des positions" },
@@ -41,7 +42,8 @@ class GoogleTab extends Component {
                 { position: 4, value: "Historique des recherches YouTube" },
                 { position: 5, value: "Historique des vidéos regardées sur YouTube" },
                 { position: 6, value: "Centres d'intérêt" }
-        ]
+                     ]
+            
         }
         
     }
@@ -50,16 +52,17 @@ class GoogleTab extends Component {
 
     handleData(handleDataChecked){
         console.log("GO TO GOOGLE: " + handleDataChecked)
-        handleDataChecked.includes(6) 
-        ? 
-        this.props.goToGoogleAds(false) && this.props.goToGoogle(handleDataChecked)
-        :
-        this.props.goToGoogleAds(true) && this.props.goToGoogle(handleDataChecked)
-        
+        this.props.goToGoogle(handleDataChecked) 
+ }
+
+     deleteData(deleteDataChecked){
 
     }
-    deleteData(deleteDataChecked){
 
+    customAds(){
+        this.setState({customAds: !this.state.customAds})
+        console.log("GO TO GOOGLE ADS: " + this.state.customAds)
+        this.props.goToGoogleAds(this.state.customAds)
     }
 
 
@@ -138,6 +141,18 @@ class GoogleTab extends Component {
     
     render(){
         return (
+    <div>
+        <div className="custom-ads">
+        Personnalisation des publicités 
+        <br />
+        {this.state.customAds ?
+        <Button color="primary" size="sm" onClick={() => this.customAds()}>Activée</Button>
+        :  <Button color="default" size="sm" onClick={() => this.customAds()}>Désactivée</Button>
+
+        }
+        </div>
+                
+
     <div className="google-forms">
     <div className="google-form"><p>Gérer la collecte des données</p>
                     <form>
@@ -182,8 +197,8 @@ class GoogleTab extends Component {
         </form>   
         </div>
         </div>
-
-  );
+        </div>
+          );
         }
 
 };

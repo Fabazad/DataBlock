@@ -77,11 +77,10 @@ class App extends Component {
           <Tabs 
             goToGoogle={(fieldsToSelect) => this.goToGoogle(fieldsToSelect)}
             goToGoogleAds={(toDisable) => this.goToGoogleAds(toDisable)}
-          /></div>
-          <Button color="primary" onClick={this.goToGoogle}>Go to google</Button>
-          <Button color="primary" onClick={this.goToGoogleAds}>Go to google ads</Button>
-          <Button color="danger" onClick={this.deleteApps}>Delete facebook apps</Button>
-          <Button color="danger" onClick={this.deleteAllApps}>Delete facebook all apps</Button>
+            deleteApps={() => this.deleteApps}
+            deleteAllApps={() => this.deleteAllApps}
+          />
+          </div>
           </body>
         
       </div>

@@ -5,6 +5,8 @@ import { Nav, NavItem, NavLink, Card, CardHeader, CardBody, TabPane, TabContent,
 import GoogleTab from './GoogleTab/GoogleTab.jsx';
 import FacebookTab from './FacebookTab/FacebookTab.jsx';
 import CookieTab from './CookieTab/CookieTab.jsx';
+import "./Tabs.css";
+
 
 
 
@@ -61,14 +63,15 @@ class Tabs extends React.Component {
             <TabContent activeTab={this.state.activeTab} className="text-center">
                 <TabPane tabId="1">
                 <GoogleTab 
-                goToGoogle={(fieldsToSelect) => this.props.goToGoogle(fieldsToSelect)}
-                goToGoogleAds={(toDisable) => this.props.goToGoogleAds(toDisable)}
-
-                />
-                
+                    goToGoogle={(fieldsToSelect) => this.props.goToGoogle(fieldsToSelect)}
+                    goToGoogleAds={(toDisable) => this.props.goToGoogleAds(toDisable)}
+                    />
                  </TabPane>
                 <TabPane tabId="2">
-                <FacebookTab />              
+                <FacebookTab 
+                    deleteApps={() => this.props.deleteApps}
+                    deleteAllApps={() => this.props.deleteAllApps}
+                    />              
                     </TabPane>
                 <TabPane tabId="3">
                 <CookieTab />              

@@ -1,42 +1,24 @@
-import React from "react";
+import React, { Component } from "react";
+import "./CookieTab.css"
+import { } from "reactstrap";
 
-import {
-  FormGroup,
-  Label,
-  Input
-} from "reactstrap";
+class CookieTab extends Component {
 
-const CookieTab = () => {
-  return (
-    <div className="cookie-forms">
-    <div><p>Gérer la collecte des données</p>
-                    <>
-        <FormGroup check>
-            <Label check>
-            <Input type="checkbox" />{' '}
-            Tout cocher
-            <span className="form-check-sign">
-                <span className="check"></span>
-            </span>
-            </Label>
-        </FormGroup>
-        </>   
-        </div>
-        <div><p>Supprimer les données existantes</p>
-                    <>
-        <FormGroup check>
-            <Label check>
-            <Input type="checkbox" />{' '}
-            Tout cocher
-            <span className="form-check-sign">
-                <span className="check"></span>
-            </span>
-            </Label>
-        </FormGroup>
-        </>   
-        </div>
-        </div>
-  );
+
+    constructor(props){
+        super(props)
+
+        this.state = {
+            
+             }
+        
+        }
+        
+    
+    render(){
+        return ("WIP");
+        }
+
 };
 
 export default CookieTab;

@@ -1,43 +1,40 @@
-import React from "react";
+import React, { Component } from "react";
 import "./FacebookTab.css";
+import { Button } from "reactstrap";
 
-import {
-  FormGroup,
-  Label,
-  Input
-} from "reactstrap";
+class FacebookTab extends Component {
 
-const FacebookTab = () => {
-  return (
+
+    constructor(props){
+        super(props)
+        this.deleteApps = this.deleteApps.bind(this)
+        this.deleteAllApps = this.deleteAllApps.bind(this)
+        
+        this.state = {
+            
+        }
+    }
+
+        deleteApps(handleDataChecked){
+            console.log("GO TO GOOGLE: " + handleDataChecked)
+            this.props.goToGoogle(handleDataChecked) 
+     }
+        deleteAllApps(handleDataChecked){
+            console.log("GO TO GOOGLE: " + handleDataChecked)
+            this.props.goToGoogle(handleDataChecked) 
+ }  
+        
+    
+
+  render(){
+      return (
     <div className="facebook-forms">
-    <div><p>Gérer la collecte des données</p>
-                    <>
-        <FormGroup check>
-            <Label check>
-            <Input type="checkbox" />{' '}
-            Tout cocher
-            <span className="form-check-sign">
-                <span className="check"></span>
-            </span>
-            </Label>
-        </FormGroup>
-        </>   
+        <Button color="info" onClick={this.deleteApps}>Delete facebook apps</Button>
+        <Button color="info" onClick={this.deleteAllApps}>Delete facebook all apps</Button>
         </div>
-        <div><p>Supprimer les données existantes</p>
-                    <>
-        <FormGroup check>
-            <Label check>
-            <Input type="checkbox" />{' '}
-            Tout cocher
-            <span className="form-check-sign">
-                <span className="check"></span>
-            </span>
-            </Label>
-        </FormGroup>
-        </>   
-        </div>
-        </div>
-  );
-};
+        );
+    };
+
+}
 
 export default FacebookTab;
