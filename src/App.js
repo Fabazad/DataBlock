@@ -15,11 +15,15 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      collectedActivities: []
+      collectedActivities: [],
+      collectingAds: false
     }
+
+    this.componentDidMount = this.componentDidMount.bind(this);
   }
 
   componentDidMount(){
+    var self = this;
     bigBrowser.runtime.onMessage.addListener(
       function(request, sender, sendResponse) {
           if (request.action === "action_completed") {
@@ -29,7 +33,11 @@ class App extends Component {
               console.log("REQUEST MSG content" + request.data.content)
           }
           if(request.action === "disableActivities"){
-            this.setState({collectedActivities: request.selectedSwitches});
+            self.setState({collectedActivities: request.selectedSwitches});
+          }
+          if(request.action === "disableAdsForFront"){
+            alert(request.isEnable);
+            self.setState({collectingAds: request.isEnable});
           }
       }
     );
@@ -74,6 +82,10 @@ class App extends Component {
     chrome.runtime.sendMessage({action: "synchroGoogle"});
   }
 
+  synchroGoogleAds(){
+    chrome.runtime.sendMessage({action: "synchroGoogleAds"});
+  }
+
   render() {
     return (
       <div className="App">
@@ -90,6 +102,8 @@ class App extends Component {
             deleteAllApps={() => this.deleteAllApps}
           />
           </div>
+          <Button color={this.state.collectingAds ? "primary" : "danger"} onClick={this.synchroGoogleAds}>Synchroniser Google ads </Button>
+          <Button color="primary" onClick={this.synchroGoogle}>Synchroniser Google</Button>
           </body>
         
       </div>

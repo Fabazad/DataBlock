@@ -20,6 +20,10 @@ bigBrowser.runtime.onMessage.addListener(async function (request, sender, sendRe
         getDisableActivities();
         bigBrowser.runtime.sendMessage({action: "closeTab", firstTab: request.firstTab, workingTab: request.workingTab});
     }
+    if(request.action === "getDisableAds"){
+        getDisableAds();
+        bigBrowser.runtime.sendMessage({action: "closeTab", firstTab: request.firstTab, workingTab: request.workingTab});
+    }
 });
 
 // MAINS
@@ -87,6 +91,11 @@ function getDisableActivities(){
         }
     });
     bigBrowser.runtime.sendMessage({action: "disableActivities", selectedSwitches});
+}
+
+function getDisableAds(){
+    var isEnable = !!$(".LsSwGf.vBNbwc.N2RpBe");
+    bigBrowser.runtime.sendMessage({action: "disableAdsForFront", isEnable});
 }
 
 // UTILS

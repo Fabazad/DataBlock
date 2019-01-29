@@ -1,7 +1,7 @@
 // EVENTS
 bigBrowser.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	if (request.action == "goToGoogle") {
-		goToPageWithAction("https://myaccount.google.com/activitycontrols", "disableActivities", request.fieldsToSelect);
+		openWorkingTab("https://myaccount.google.com/activitycontrols", "disableActivities", request.fieldsToSelect);
 	}
 	if(request.action === "goToGoogleAds"){
 		openWorkingTab("https://adssettings.google.com/authenticated", "disableAds", request.toDisable);
@@ -20,6 +20,9 @@ bigBrowser.runtime.onMessage.addListener(function (request, sender, sendResponse
 	}
 	if(request.action === "synchroGoogle"){
 		openWorkingTab("https://myaccount.google.com/activitycontrols", "getDisableActivities");
+	}
+	if(request.action === "synchroGoogleAds"){
+		openWorkingTab("https://adssettings.google.com/authenticated", "getDisableAds");
 	}
 });
 
