@@ -65,6 +65,7 @@ class Tabs extends React.Component {
                 <GoogleTab 
                     goToGoogle={(fieldsToSelect) => this.props.goToGoogle(fieldsToSelect)}
                     goToGoogleAds={(toDisable) => this.props.goToGoogleAds(toDisable)}
+                    collectedActivities={this.props.collectedActivities}
                     />
                  </TabPane>
                 <TabPane tabId="2">

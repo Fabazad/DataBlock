@@ -21,10 +21,9 @@ class GoogleTab extends Component {
         this.onCheckAllDelete = this.onCheckAllDelete.bind(this)
         this.customAds = this.customAds.bind(this)
 
-
         this.state = {
             customAds:false,
-            handleDataChecked:[],
+            handleDataChecked: this.props.collectedActivities,
             deleteDataChecked:[],
             handleDataForm: [
                 { position: 0, value: "Activité sur le Web et les applications" },
@@ -165,7 +164,7 @@ class GoogleTab extends Component {
             </span>
             </Label>
             {this.state.handleDataForm.map(field => <Label check>
-            <Input type="checkbox" checked={this.state.handleDataChecked.includes(field.position)} value={field.position} onChange={ this.onCheckHandleData }/>{' '}
+            <Input type="checkbox" checked={this.props.collectedActivities.includes(field.position)} value={field.position} onChange={ this.onCheckHandleData }/>{' '}
             {field.value}
             <span className="form-check-sign">
                 <span className="check"></span>

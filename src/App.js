@@ -28,7 +28,7 @@ class App extends Component {
       function(request, sender, sendResponse) {
           if (request.action === "action_completed") {
               //  To do something
-              alert("Tab closed");
+              console.log("Tab closed");
               console.log("REQUEST MSG subject" + request.data.subject)
               console.log("REQUEST MSG content" + request.data.content)
           }
@@ -44,9 +44,7 @@ class App extends Component {
   }
 
   goToGoogle(fieldsToSelect){
-    chrome.tabs.query({active: true, currentWindow: true},  tabs => {
-      chrome.runtime.sendMessage({action: "goToGoogle", fieldsToSelect});
-    });
+    chrome.runtime.sendMessage({action: "goToGoogle", fieldsToSelect});
   }
 
   goToGoogleAds(toDisable){
@@ -55,27 +53,19 @@ class App extends Component {
   }
 
   goToGoogleActivities(){
-    chrome.tabs.query({active: true, currentWindow: true}, tabs =>{
-      chrome.runtime.sendMessage({action: "goToGoogleActivities"});
-     });
+    chrome.runtime.sendMessage({action: "goToGoogleActivities"});
   }
 
   deleteApps(){
-    chrome.tabs.query({active: true, currentWindow: true}, function (tabs){
-      chrome.tabs.sendMessage(tabs[0].id, {action: "deleteApps", deleteAll: false, url: "https://www.facebook.com/settings?tab=applications&section=inactive"});
-    });
+    chrome.tabs.sendMessage({action: "deleteApps", deleteAll: false, url: "https://www.facebook.com/settings?tab=applications&section=inactive"});
   }
 
   deleteAllApps(){
-    chrome.tabs.query({active: true, currentWindow: true}, function (tabs){
-      chrome.tabs.sendMessage(tabs[0].id, {action: "deleteApps", deleteAll: true, url: "https://www.facebook.com/settings?tab=applications&section=inactive"});
-    });
+    chrome.tabs.sendMessage({action: "deleteApps", deleteAll: true, url: "https://www.facebook.com/settings?tab=applications&section=inactive"});
   }
 
   deleteAllPositions(){
-    chrome.tabs.query({active: true, currentWindow: true}, tabs =>{
-      chrome.runtime.sendMessage({action: "goToGoogleTimeline"});
-     });
+    chrome.runtime.sendMessage({action: "goToGoogleTimeline"});
   }
 
   synchroGoogle(){
@@ -100,10 +90,13 @@ class App extends Component {
             goToGoogleAds={(toDisable) => this.goToGoogleAds(toDisable)}
             deleteApps={() => this.deleteApps}
             deleteAllApps={() => this.deleteAllApps}
+            collectedActivities={this.state.collectedActivities}
           />
           </div>
           <Button color={this.state.collectingAds ? "primary" : "danger"} onClick={this.synchroGoogleAds}>Synchroniser Google ads </Button>
           <Button color="primary" onClick={this.synchroGoogle}>Synchroniser Google</Button>
+          <Button color="primary" onClick={this.goToGoogleActivities}>Delete Google Activities</Button>
+          
           </body>
         
       </div>
@@ -114,3 +107,4 @@ class App extends Component {
 }
 
 export default App;
+
