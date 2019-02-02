@@ -34,9 +34,9 @@ class App extends Component {
           }
           if(request.action === "disableActivities"){
             self.setState({collectedActivities: request.selectedSwitches});
+            chrome.runtime.sendMessage({action: "synchroGoogleAds"});
           }
           if(request.action === "disableAdsForFront"){
-            alert(request.isEnable);
             self.setState({collectingAds: request.isEnable});
           }
       }
@@ -49,6 +49,7 @@ class App extends Component {
 
   goToGoogleAds(toDisable){
     console.log("Disable google ads:" + toDisable)
+    this.setState({customAds: !this.state.customAds})
     chrome.runtime.sendMessage({action: "goToGoogleAds", toDisable});
   }
 
@@ -91,6 +92,7 @@ class App extends Component {
             deleteApps={() => this.deleteApps}
             deleteAllApps={() => this.deleteAllApps}
             collectedActivities={this.state.collectedActivities}
+            collectingAds={this.state.collectingAds}
           />
           </div>
           <Button color={this.state.collectingAds ? "primary" : "danger"} onClick={this.synchroGoogleAds}>Synchroniser Google ads </Button>

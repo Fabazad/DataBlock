@@ -94,7 +94,7 @@ function getDisableActivities(){
 }
 
 function getDisableAds(){
-    var isEnable = !!$(".LsSwGf.vBNbwc.N2RpBe");
+    var isEnable = !!$(".LsSwGf.vBNbwc.N2RpBe")[0];
     bigBrowser.runtime.sendMessage({action: "disableAdsForFront", isEnable});
 }
 

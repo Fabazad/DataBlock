@@ -10,7 +10,6 @@ import {
 
 class GoogleTab extends Component {
 
-
     constructor(props){
         super(props)
         this.handleData = this.handleData.bind(this)
@@ -22,9 +21,9 @@ class GoogleTab extends Component {
         this.customAds = this.customAds.bind(this)
 
         this.state = {
-            customAds:false,
             handleDataChecked: this.props.collectedActivities,
             deleteDataChecked:[],
+            customAdsValue: false,
             handleDataForm: [
                 { position: 0, value: "Activité sur le Web et les applications" },
                 { position: 1, value: "Historique des positions" },
@@ -41,29 +40,29 @@ class GoogleTab extends Component {
                 { position: 4, value: "Historique des recherches YouTube" },
                 { position: 5, value: "Historique des vidéos regardées sur YouTube" },
                 { position: 6, value: "Centres d'intérêt" }
-                     ]
-            
+            ]
         }
         
     }
-
     
+    componentWillReceiveProps(nextProps){
+        this.setState({handleDataChecked: nextProps.collectedActivities});
+        this.setState({customAdsValue: nextProps.collectingAds});
+    }
 
     handleData(handleDataChecked){
         console.log("GO TO GOOGLE: " + handleDataChecked)
         this.props.goToGoogle(handleDataChecked) 
- }
+    }
 
-     deleteData(deleteDataChecked){
+    deleteData(deleteDataChecked){
 
     }
 
     customAds(){
-        this.setState({customAds: !this.state.customAds})
-        console.log("GO TO GOOGLE ADS: " + this.state.customAds)
-        this.props.goToGoogleAds(this.state.customAds)
+        console.log("GO TO GOOGLE ADS: " + this.props.collectingAds)
+        this.props.goToGoogleAds(this.props.collectingAds)
     }
-
 
     onCheckHandleData(e) {
         // current array of options
@@ -83,10 +82,10 @@ class GoogleTab extends Component {
         this.setState({ handleDataChecked: handleDataChecked })
         console.log("handleDataChecked: " + this.state.handleDataChecked)
 
-      }
+    }
    
 
-      onCheckDeleteData(e) {
+    onCheckDeleteData(e) {
         // current array of options
         const deleteDataChecked = this.state.deleteDataChecked
         let index
@@ -105,9 +104,9 @@ class GoogleTab extends Component {
         this.setState({ deleteDataChecked: deleteDataChecked })
         console.log("deleteDataChecked: " + this.state.deleteDataChecked)
 
-      }
+    }
 
-      onCheckAllHandle(e) {
+    onCheckAllHandle(e) {
         const newHandleDataChecked = []
     
         if (e.target.checked) {
@@ -120,9 +119,9 @@ class GoogleTab extends Component {
         this.setState({ handleDataChecked: newHandleDataChecked })
         console.log("handleDataCheckedAll: " + this.state.handleDataChecked)
 
-      }
+    }
 
-      onCheckAllDelete(e) {
+    onCheckAllDelete(e) {
         const newDeleteDataChecked = []
     
         if (e.target.checked) {
@@ -130,12 +129,12 @@ class GoogleTab extends Component {
             }
         else {
             
-        }
+    }
 
-        this.setState({ deleteDataChecked: newDeleteDataChecked })
+    this.setState({ deleteDataChecked: newDeleteDataChecked })
         console.log("deleteDataCheckedAll: " + this.state.deleteDataChecked)
 
-      }
+    }
         
     
     render(){
@@ -144,10 +143,9 @@ class GoogleTab extends Component {
         <div className="custom-ads">
         Personnalisation des publicités 
         <br />
-        {this.state.customAds ?
+        {this.state.customAdsValue ?
         <Button color="primary" size="sm" onClick={() => this.customAds()}>Activée</Button>
         :  <Button color="default" size="sm" onClick={() => this.customAds()}>Désactivée</Button>
-
         }
         </div>
                 
@@ -164,7 +162,7 @@ class GoogleTab extends Component {
             </span>
             </Label>
             {this.state.handleDataForm.map(field => <Label check>
-            <Input type="checkbox" checked={this.props.collectedActivities.includes(field.position)} value={field.position} onChange={ this.onCheckHandleData }/>{' '}
+            <Input type="checkbox" checked={this.state.handleDataChecked.includes(field.position)} value={field.position} onChange={ this.onCheckHandleData }/>{' '}
             {field.value}
             <span className="form-check-sign">
                 <span className="check"></span>
