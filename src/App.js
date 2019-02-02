@@ -8,7 +8,7 @@ import logo from './assets/icons/DataBlockLogo.png';
 import './App.css';
 import Tabs from './components/Tabs/Tabs';
 import { Button } from "reactstrap";
-
+import { Spinner } from 'reactstrap';
 
 class App extends Component {
 
@@ -16,10 +16,18 @@ class App extends Component {
     super(props);
     this.state = {
       collectedActivities: [],
-      collectingAds: false
+      collectingAds: false,
+      loading: 0
     }
 
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.goToGoogle = this.goToGoogle.bind(this);
+    this.goToGoogleAds = this.goToGoogleAds.bind(this);
+    this.goToGoogleActivities = this.goToGoogleActivities.bind(this);
+    this.deleteApps = this.deleteApps.bind(this);
+    this.deleteAllApps = this.deleteAllApps.bind(this);
+    this.deleteAllPositions = this.deleteAllPositions.bind(this);
+    this.synchroGoogle = this.synchroGoogle.bind(this);
   }
 
   componentDidMount(){
@@ -31,13 +39,17 @@ class App extends Component {
               console.log("Tab closed");
               console.log("REQUEST MSG subject" + request.data.subject)
               console.log("REQUEST MSG content" + request.data.content)
+              self.setState({loading: self.state.loading-1});
           }
           if(request.action === "disableActivities"){
             self.setState({collectedActivities: request.selectedSwitches});
+            self.setState({loading: self.state.loading+1});
             chrome.runtime.sendMessage({action: "synchroGoogleAds"});
+            
           }
           if(request.action === "disableAdsForFront"){
             self.setState({collectingAds: request.isEnable});
+            self.setState({loading: self.state.loading-1});
           }
       }
     );
@@ -45,36 +57,39 @@ class App extends Component {
 
   goToGoogle(fieldsToSelect){
     chrome.runtime.sendMessage({action: "goToGoogle", fieldsToSelect});
+    this.setState({loading: this.state.loading+1});
   }
 
   goToGoogleAds(toDisable){
     console.log("Disable google ads:" + toDisable)
-    this.setState({customAds: !this.state.customAds})
+    this.setState({customAds: !this.state.customAds});
+    this.setState({loading: this.state.loading+1});
     chrome.runtime.sendMessage({action: "goToGoogleAds", toDisable});
   }
 
   goToGoogleActivities(){
+    this.setState({loading: this.state.loading+1});
     chrome.runtime.sendMessage({action: "goToGoogleActivities"});
   }
 
   deleteApps(){
+    this.setState({loading: this.state.loading+1});
     chrome.tabs.sendMessage({action: "deleteApps", deleteAll: false, url: "https://www.facebook.com/settings?tab=applications&section=inactive"});
   }
 
   deleteAllApps(){
+    this.setState({loading: this.state.loading+1});
     chrome.tabs.sendMessage({action: "deleteApps", deleteAll: true, url: "https://www.facebook.com/settings?tab=applications&section=inactive"});
   }
 
   deleteAllPositions(){
+    this.setState({loading: this.state.loading+1});
     chrome.runtime.sendMessage({action: "goToGoogleTimeline"});
   }
 
   synchroGoogle(){
+    this.setState({loading: this.state.loading+1});
     chrome.runtime.sendMessage({action: "synchroGoogle"});
-  }
-
-  synchroGoogleAds(){
-    chrome.runtime.sendMessage({action: "synchroGoogleAds"});
   }
 
   render() {
@@ -85,19 +100,23 @@ class App extends Component {
           <p>Data Block</p>
         </header>
         <body className="App-body">
-          <div className="tabs-container">
-          <Tabs 
-            goToGoogle={(fieldsToSelect) => this.goToGoogle(fieldsToSelect)}
-            goToGoogleAds={(toDisable) => this.goToGoogleAds(toDisable)}
-            deleteApps={() => this.deleteApps}
-            deleteAllApps={() => this.deleteAllApps}
-            collectedActivities={this.state.collectedActivities}
-            collectingAds={this.state.collectingAds}
-          />
-          </div>
-          <Button color={this.state.collectingAds ? "primary" : "danger"} onClick={this.synchroGoogleAds}>Synchroniser Google ads </Button>
-          <Button color="primary" onClick={this.synchroGoogle}>Synchroniser Google</Button>
-          <Button color="primary" onClick={this.goToGoogleActivities}>Delete Google Activities</Button>
+          {this.state.loading > 0 ?
+            <Spinner type="grow" color="success" />
+          :
+            <div className="tabs-container">
+              <Tabs 
+                goToGoogle={(fieldsToSelect) => this.goToGoogle(fieldsToSelect)}
+                goToGoogleAds={(toDisable) => this.goToGoogleAds(toDisable)}
+                deleteApps={() => this.deleteApps}
+                deleteAllApps={() => this.deleteAllApps}
+                collectedActivities={this.state.collectedActivities}
+                collectingAds={this.state.collectingAds}
+              />
+              <Button color="primary" onClick={this.synchroGoogle}>Synchroniser Google</Button>
+              <Button color="primary" onClick={this.goToGoogleActivities}>Delete Google Activities</Button>
+            </div>
+          }
+          
           
           </body>
         
