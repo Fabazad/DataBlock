@@ -17,7 +17,8 @@ class App extends Component {
     this.state = {
       collectedActivities: [],
       collectingAds: false,
-      loading: 0
+      loading: 0,
+      synchronized: false
     }
 
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -50,6 +51,7 @@ class App extends Component {
           if(request.action === "disableAdsForFront"){
             self.setState({collectingAds: request.isEnable});
             self.setState({loading: self.state.loading-1});
+            self.setState({synchronized: true});
           }
       }
     );
@@ -101,8 +103,12 @@ class App extends Component {
         </header>
         <body className="App-body">
           {this.state.loading > 0 ?
-            <Spinner type="grow" color="success" />
-          :
+            <Spinner type="grow" color="success" /> : ""
+          }
+          { !(this.state.loading > 0) && !this.state.synchronized ?
+            <div><Button color="primary" onClick={this.synchroGoogle}>Synchroniser Google</Button></div>
+          : ""}
+          { !(this.state.loading > 0) && this.state.synchronized ?
             <div className="tabs-container">
               <Tabs 
                 goToGoogle={(fieldsToSelect) => this.goToGoogle(fieldsToSelect)}
@@ -112,9 +118,9 @@ class App extends Component {
                 collectedActivities={this.state.collectedActivities}
                 collectingAds={this.state.collectingAds}
               />
-              <Button color="primary" onClick={this.synchroGoogle}>Synchroniser Google</Button>
               <Button color="primary" onClick={this.goToGoogleActivities}>Delete Google Activities</Button>
             </div>
+            : ""
           }
           
           
