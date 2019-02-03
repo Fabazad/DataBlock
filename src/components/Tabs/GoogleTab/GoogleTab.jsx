@@ -1,12 +1,7 @@
 import "./GoogleTab.css"
 import React, { Component } from "react";
 
-import {
-  FormGroup,
-  Label,
-  Input, 
-  Button
-} from "reactstrap";
+import { FormGroup, Label, Input, Button, UncontrolledTooltip } from "reactstrap";
 
 class GoogleTab extends Component {
 
@@ -170,11 +165,20 @@ class GoogleTab extends Component {
         </form>   
         </div>
         <div className="google-form"><p>Supprimer les données existantes</p> 
-        <Button className="delete-button" color="danger" onClick={() => this.deleteData(this.deleteDataChecked)}>Géolocalisation</Button>
+        <Button id="delete-geolocation-btn" className="delete-button" color="danger" onClick={() => this.deleteData(this.deleteDataChecked)}>Géolocalisation</Button>
+        <UncontrolledTooltip placement="left" target="delete-geolocation-btn" delay={0}>
+            Supprime tout l'historique des endroits où vous êtes allé
+            </UncontrolledTooltip>
         <br />
-        <Button className="delete-button" color="danger" onClick={() => this.deleteData(this.goToGoogleActivities)}>Activités</Button>
+        <Button id="delete-activities-btn" className="delete-button" color="danger" onClick={() => this.deleteData(this.goToGoogleActivities)}>Activités</Button>
+        <UncontrolledTooltip placement="left" target="delete-activities-btn" delay={0}>
+            Supprime tout l'historique du contenu que vous avez recherché, lu ou regardé
+            </UncontrolledTooltip>
         <br />
-        <Button className="delete-button" color="danger" onClick={() => this.deleteData()}>Centres d'intéret</Button>
+        <Button id="delete-hobbies-btn" className="delete-button" color="danger" onClick={() => this.deleteData()}>Centres d'intéret</Button>
+        <UncontrolledTooltip placement="left" target="delete-hobbies-btn" delay={0}>
+            Supprime tous les centres d'intérets que Google vous a associé
+            </UncontrolledTooltip>
         </div>
         </div>
         </div>

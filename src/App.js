@@ -109,14 +109,16 @@ class App extends Component {
           { !(this.state.loading > 0) && this.state.synchronized ?
             <div className="tabs-container">
               <Tabs 
+                //Google
                 goToGoogle={(fieldsToSelect) => this.goToGoogle(fieldsToSelect)}
                 goToGoogleAds={(toDisable) => this.goToGoogleAds(toDisable)}
                 goToGoogleActivities={() => this.goToGoogleActivities}
                 deleteAllPositions={() => this.deleteAllPositions}
-                deleteApps={() => this.deleteApps}
-                deleteAllApps={() => this.deleteAllApps}
                 collectedActivities={this.state.collectedActivities}
                 collectingAds={this.state.collectingAds}
+                //Facebook
+                deleteApps={() => this.deleteApps}
+                deleteAllApps={() => this.deleteAllApps}
               />
             </div>
             : ""
