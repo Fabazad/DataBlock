@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Nav, NavItem, NavLink, Card, CardHeader, CardBody, TabPane, TabContent, FormGroup, Label, Input} from 'reactstrap';
 import GoogleTab from './GoogleTab/GoogleTab.jsx';
 import FacebookTab from './FacebookTab/FacebookTab.jsx';
-import CookieTab from './CookieTab/CookieTab.jsx';
+import TwitterTab from './TwitterTab/TwitterTab.jsx';
 import "./Tabs.css";
 
 
@@ -54,7 +54,7 @@ class Tabs extends React.Component {
                         className={this.state.activeTab === '3' ? 'active':''}
                         onClick={() => { this.toggle('3'); }}
                     >
-                        Cookies
+                        Twitter
                     </NavLink>
                 </NavItem>
             </Nav>
@@ -65,6 +65,8 @@ class Tabs extends React.Component {
                 <GoogleTab 
                     goToGoogle={(fieldsToSelect) => this.props.goToGoogle(fieldsToSelect)}
                     goToGoogleAds={(toDisable) => this.props.goToGoogleAds(toDisable)}
+                    goToGoogleActivities={()=> this.goToGoogleActivities}
+                    deleteAllPositions={()=> this.deleteAllPositions}
                     collectedActivities={this.props.collectedActivities}
                     collectingAds={this.props.collectingAds}
                     />
@@ -76,7 +78,7 @@ class Tabs extends React.Component {
                     />              
                     </TabPane>
                 <TabPane tabId="3">
-                <CookieTab />              
+                <TwitterTab />              
 
                        </TabPane>
             </TabContent>

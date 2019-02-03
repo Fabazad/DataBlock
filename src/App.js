@@ -3,12 +3,10 @@
 
 
 import React, { Component } from 'react';
-// import logo from './logo.svg';
 import logo from './assets/icons/DataBlockLogo.png';
 import './App.css';
 import Tabs from './components/Tabs/Tabs';
-import { Button } from "reactstrap";
-import { Spinner } from 'reactstrap';
+import { Button, Spinner } from "reactstrap";
 
 class App extends Component {
 
@@ -113,16 +111,16 @@ class App extends Component {
               <Tabs 
                 goToGoogle={(fieldsToSelect) => this.goToGoogle(fieldsToSelect)}
                 goToGoogleAds={(toDisable) => this.goToGoogleAds(toDisable)}
+                goToGoogleActivities={() => this.goToGoogleActivities}
+                deleteAllPositions={() => this.deleteAllPositions}
                 deleteApps={() => this.deleteApps}
                 deleteAllApps={() => this.deleteAllApps}
                 collectedActivities={this.state.collectedActivities}
                 collectingAds={this.state.collectingAds}
               />
-              <Button color="primary" onClick={this.goToGoogleActivities}>Delete Google Activities</Button>
             </div>
             : ""
           }
-          
           
           </body>
         

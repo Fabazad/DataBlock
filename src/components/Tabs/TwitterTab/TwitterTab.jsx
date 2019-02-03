@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import "./CookieTab.css"
+import "./TwitterTab.css"
 import { } from "reactstrap";
 
-class CookieTab extends Component {
+class TwitterTab extends Component {
 
 
     constructor(props){
@@ -21,4 +21,4 @@ class CookieTab extends Component {
 
 };
 
-export default CookieTab;
+export default TwitterTab;

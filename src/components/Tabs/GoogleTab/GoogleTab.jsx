@@ -13,16 +13,16 @@ class GoogleTab extends Component {
     constructor(props){
         super(props)
         this.handleData = this.handleData.bind(this)
-        this.deleteData = this.deleteData.bind(this)
         this.onCheckHandleData = this.onCheckHandleData.bind(this)
         this.onCheckDeleteData = this.onCheckDeleteData.bind(this)
         this.onCheckAllHandle = this.onCheckAllHandle.bind(this)
         this.onCheckAllDelete = this.onCheckAllDelete.bind(this)
         this.customAds = this.customAds.bind(this)
+        this.goToGoogleActivities = this.goToGoogleActivities.bind(this)
+        this.deleteAllPositions = this.deleteAllPositions.bind(this)
 
         this.state = {
             handleDataChecked: this.props.collectedActivities,
-            deleteDataChecked:[],
             customAdsValue: false,
             handleDataForm: [
                 { position: 0, value: "Activité sur le Web et les applications" },
@@ -31,16 +31,7 @@ class GoogleTab extends Component {
                 { position: 3, value: "Activité vocale et audio" },
                 { position: 4, value: "Historique des recherches YouTube" },
                 { position: 5, value: "Historique des vidéos regardées sur YouTube" }
-                         ],
-            deleteDataForm: [
-                { position: 0, value: "Activité sur le Web et les applications" },
-                { position: 1, value: "Historique des positions" },
-                { position: 2, value: "Informations provenant des appareils" },
-                { position: 3, value: "Activité vocale et audio" },
-                { position: 4, value: "Historique des recherches YouTube" },
-                { position: 5, value: "Historique des vidéos regardées sur YouTube" },
-                { position: 6, value: "Centres d'intérêt" }
-            ]
+                         ]
         }
         
     }
@@ -55,13 +46,21 @@ class GoogleTab extends Component {
         this.props.goToGoogle(handleDataChecked) 
     }
 
-    deleteData(deleteDataChecked){
+    deleteData(){
 
     }
 
     customAds(){
         console.log("GO TO GOOGLE ADS: " + this.props.collectingAds)
         this.props.goToGoogleAds(this.props.collectingAds)
+    }
+
+    goToGoogleActivities(){
+        this.props.goToGoogleActivities()
+    }
+
+    deleteAllPositions(){
+        this.props.deleteAllPositions()
     }
 
     onCheckHandleData(e) {
@@ -139,19 +138,17 @@ class GoogleTab extends Component {
     
     render(){
         return (
-    <div>
-        <div className="custom-ads">
-        Personnalisation des publicités 
-        <br />
-        {this.state.customAdsValue ?
-        <Button color="primary" size="sm" onClick={() => this.customAds()}>Activée</Button>
-        :  <Button color="default" size="sm" onClick={() => this.customAds()}>Désactivée</Button>
-        }
-        </div>
-                
-
+    <div>              
+    <div className="custom-ads">
+    <p>Personnalisation des publicités</p>
+            {this.state.customAdsValue ?
+            <Button color="primary" size="sm" onClick={() => this.customAds()}>Activée</Button>
+            :  <Button color="default" size="sm" onClick={() => this.customAds()}>Désactivée</Button>
+            }
+            </div>
     <div className="google-forms">
-    <div className="google-form"><p>Gérer la collecte des données</p>
+    <div className="google-form"> 
+    <p>Gérer la collecte des données</p>
                     <form>
         <FormGroup check>
             <Label check>
@@ -172,26 +169,12 @@ class GoogleTab extends Component {
         <Button type="submit" color="success" onClick={() => this.handleData(this.state.handleDataChecked)}>Valider</Button>
         </form>   
         </div>
-        <div className="google-form"><p>Supprimer les données existantes</p>
-                    <form>
-        <FormGroup check>
-            <Label check>
-            <Input type="checkbox" onChange={ this.onCheckAllDelete }/>{' '}
-            Tout cocher
-            <span className="form-check-sign">
-                <span className="check"></span>
-            </span>
-            </Label>
-            {this.state.deleteDataForm.map(field => <Label check>
-            <Input type="checkbox" value={field.position} checked={this.state.deleteDataChecked.includes(field.position)} onChange={ this.onCheckDeleteData }/>{' '}
-            {field.value}
-            <span className="form-check-sign">
-                <span className="check"></span>
-            </span>
-            </Label>)}
-        </FormGroup>
-        <Button type="submit" color="success" onClick={() => this.deleteData(this.state.deleteDataChecked)}>Valider</Button>
-        </form>   
+        <div className="google-form"><p>Supprimer les données existantes</p> 
+        <Button className="delete-button" color="danger" onClick={() => this.deleteData(this.deleteDataChecked)}>Géolocalisation</Button>
+        <br />
+        <Button className="delete-button" color="danger" onClick={() => this.deleteData(this.goToGoogleActivities)}>Activités</Button>
+        <br />
+        <Button className="delete-button" color="danger" onClick={() => this.deleteData()}>Centres d'intéret</Button>
         </div>
         </div>
         </div>
