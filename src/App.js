@@ -112,11 +112,8 @@ class App extends Component {
                 //Google
                 goToGoogle={(fieldsToSelect) => this.goToGoogle(fieldsToSelect)}
                 goToGoogleAds={(toDisable) => this.goToGoogleAds(toDisable)}
-                goToGoogleActivities={() => this.goToGoogleActivities}
-                deleteAllPositions={() => this.deleteAllPositions}
-                collectedActivities={this.state.collectedActivities}
-                collectingAds={this.state.collectingAds}
-                //Facebook
+                goToGoogleActivities={() => this.goToGoogleActivities()}
+                deleteAllPositions={() => this.deleteAllPositions()}
                 deleteApps={() => this.deleteApps}
                 deleteAllApps={() => this.deleteAllApps}
               />

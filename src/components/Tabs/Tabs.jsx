@@ -65,8 +65,8 @@ class Tabs extends React.Component {
                 <GoogleTab 
                     goToGoogle={(fieldsToSelect) => this.props.goToGoogle(fieldsToSelect)}
                     goToGoogleAds={(toDisable) => this.props.goToGoogleAds(toDisable)}
-                    goToGoogleActivities={()=> this.goToGoogleActivities}
-                    deleteAllPositions={()=> this.deleteAllPositions}
+                    goToGoogleActivities={()=> this.props.goToGoogleActivities()}
+                    deleteAllPositions={()=> this.props.deleteAllPositions()}
                     collectedActivities={this.props.collectedActivities}
                     collectingAds={this.props.collectingAds}
                     />
