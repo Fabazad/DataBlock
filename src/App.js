@@ -27,6 +27,7 @@ class App extends Component {
     this.deleteAllApps = this.deleteAllApps.bind(this);
     this.deleteAllPositions = this.deleteAllPositions.bind(this);
     this.synchroGoogle = this.synchroGoogle.bind(this);
+    this.deleteInterests = this.deleteInterests.bind(this);
   }
 
   componentDidMount(){
@@ -87,6 +88,11 @@ class App extends Component {
     chrome.runtime.sendMessage({action: "goToGoogleTimeline"});
   }
 
+  deleteInterests(){
+    this.setState({loading: this.state.loading+1});
+    chrome.runtime.sendMessage({action: "goToDeleteInterests"});
+  }
+
   synchroGoogle(){
     this.setState({loading: this.state.loading+1});
     chrome.runtime.sendMessage({action: "synchroGoogle"});
@@ -114,8 +120,11 @@ class App extends Component {
                 goToGoogleAds={(toDisable) => this.goToGoogleAds(toDisable)}
                 goToGoogleActivities={() => this.goToGoogleActivities()}
                 deleteAllPositions={() => this.deleteAllPositions()}
-                deleteApps={() => this.deleteApps}
-                deleteAllApps={() => this.deleteAllApps}
+                deleteInterests={() => this.deleteInterests()}
+                deleteApps={() => this.deleteApps()}
+                deleteAllApps={() => this.deleteAllApps()}
+                collectedActivities={this.state.collectedActivities}
+                collectingAds={this.state.collectingAds}
               />
             </div>
             : ""

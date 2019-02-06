@@ -16,6 +16,10 @@ bigBrowser.runtime.onMessage.addListener(async function (request, sender, sendRe
         await deleteAllPositions();
         bigBrowser.runtime.sendMessage({action: "closeTab", firstTab: request.firstTab, workingTab: request.workingTab});
     }
+    if(request.action === "deleteInterests"){
+        await deleteInterests();
+        bigBrowser.runtime.sendMessage({action: "closeTab", firstTab: request.firstTab, workingTab: request.workingTab});
+    }
     if(request.action === "getDisableActivities"){
         getDisableActivities();
         bigBrowser.runtime.sendMessage({action: "closeTab", firstTab: request.firstTab, workingTab: request.workingTab});
@@ -79,6 +83,12 @@ async function deleteAllPositions(){
     $checkbox.click();
     $("button.delete-button").click()
     await waitForElement(".modal-dialog button.goog-buttonset-default");
+    return Promise.resolve()
+}
+
+async function deleteInterests(){
+    var $interests = await waitForElement(".fRYEGc");
+    $interests.click();
     return Promise.resolve()
 }
 

@@ -15,6 +15,8 @@ class GoogleTab extends Component {
         this.customAds = this.customAds.bind(this)
         this.goToGoogleActivities = this.goToGoogleActivities.bind(this)
         this.deleteAllPositions = this.deleteAllPositions.bind(this)
+        this.deleteInterests = this.deleteInterests.bind(this)
+        this.render = this.render.bind(this)
 
         this.state = {
             handleDataChecked: this.props.collectedActivities,
@@ -56,6 +58,10 @@ class GoogleTab extends Component {
 
     deleteAllPositions(){
         this.props.deleteAllPositions()
+    }
+
+    deleteInterests(){
+        this.props.deleteInterests()
     }
 
     onCheckHandleData(e) {
@@ -132,6 +138,7 @@ class GoogleTab extends Component {
         
     
     render(){
+        var self = this;
         return (
     <div>              
     <div className="custom-ads">
@@ -153,33 +160,36 @@ class GoogleTab extends Component {
                 <span className="check"></span>
             </span>
             </Label>
-            {this.state.handleDataForm.map(field => <Label check>
-            <Input type="checkbox" checked={this.state.handleDataChecked.includes(field.position)} value={field.position} onChange={ this.onCheckHandleData }/>{' '}
+            {this.state.handleDataChecked ?
+            this.state.handleDataForm.map(field => <Label check>
+            <Input type="checkbox" checked={self.state.handleDataChecked.includes(field.position)} value={field.position} onChange={ this.onCheckHandleData }/>{' '}
             {field.value}
             <span className="form-check-sign">
                 <span className="check"></span>
             </span>
-            </Label>)}
+            </Label>)
+            : ""}
         </FormGroup>
         <Button type="submit" color="success" onClick={() => this.handleData(this.state.handleDataChecked)}>Valider</Button>
         </form>   
         </div>
-        <div className="google-form"><p>Supprimer les données existantes</p> 
-        <Button id="delete-geolocation-btn" className="delete-button" color="danger" onClick={() => this.deleteData(this.deleteDataChecked)}>Géolocalisation</Button>
-        <UncontrolledTooltip placement="left" target="delete-geolocation-btn" delay={0}>
-            Supprime tout l'historique des endroits où vous êtes allé
-            </UncontrolledTooltip>
-        <br />
-        <Button id="delete-activities-btn" className="delete-button" color="danger" onClick={() => this.deleteData(this.goToGoogleActivities)}>Activités</Button>
-        <UncontrolledTooltip placement="left" target="delete-activities-btn" delay={0}>
-            Supprime tout l'historique du contenu que vous avez recherché, lu ou regardé
-            </UncontrolledTooltip>
-        <br />
-        <Button id="delete-hobbies-btn" className="delete-button" color="danger" onClick={() => this.deleteData()}>Centres d'intéret</Button>
-        <UncontrolledTooltip placement="left" target="delete-hobbies-btn" delay={0}>
-            Supprime tous les centres d'intérets que Google vous a associé
-            </UncontrolledTooltip>
-        </div>
+            <div className="google-form">
+                <p>Supprimer les données existantes</p> 
+                <Button id="delete-geolocation-btn" className="delete-button" color="danger" onClick={() => this.deleteDataChecked()}>Géolocalisation</Button>
+                <UncontrolledTooltip placement="left" target="delete-geolocation-btn" delay={0}>
+                    Supprime tout l'historique des endroits où vous êtes allé
+                </UncontrolledTooltip>
+                <br />
+                <Button id="delete-activities-btn" className="delete-button" color="danger" onClick={() => this.goToGoogleActivities()}>Activités</Button>
+                <UncontrolledTooltip placement="left" target="delete-activities-btn" delay={0}>
+                    Supprime tout l'historique du contenu que vous avez recherché, lu ou regardé
+                </UncontrolledTooltip>
+                <br />
+                <Button id="delete-hobbies-btn" className="delete-button" color="danger" onClick={() => this.deleteInterests()}>Centres d'intéret</Button>
+                <UncontrolledTooltip placement="left" target="delete-hobbies-btn" delay={0}>
+                    Supprime tous les centres d'intérets que Google vous a associé
+                </UncontrolledTooltip>
+            </div>
         </div>
         </div>
           );

@@ -9,6 +9,9 @@ bigBrowser.runtime.onMessage.addListener(function (request, sender, sendResponse
 	if(request.action === "goToGoogleActivities"){
 		openWorkingTab("https://myactivity.google.com/myactivity", "deleteAllActivity");
 	}
+	if(request.action === "goToDeleteInterests"){
+		goToPageWithAction("https://adssettings.google.com/u/0/authenticated", "deleteInterests");
+	}
 	if (request.action == "closeTab") {
 		closeTab(request.firstTab, request.workingTab);
 	}

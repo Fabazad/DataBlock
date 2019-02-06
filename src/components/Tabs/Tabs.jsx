@@ -67,6 +67,7 @@ class Tabs extends React.Component {
                     goToGoogleAds={(toDisable) => this.props.goToGoogleAds(toDisable)}
                     goToGoogleActivities={()=> this.props.goToGoogleActivities()}
                     deleteAllPositions={()=> this.props.deleteAllPositions()}
+                    deleteInterests={() => this.props.deleteInterests()}
                     collectedActivities={this.props.collectedActivities}
                     collectingAds={this.props.collectingAds}
                     />
