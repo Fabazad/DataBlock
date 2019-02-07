@@ -49,7 +49,7 @@ async function disableActivities(fieldsToSelect){
 
 async function disableAds(toDisable){
     var $disableSwitch = $(".LsSwGf.vBNbwc.N2RpBe");
-    var $enableSwitch = $(".LsSwGf.vBNbwc:not(.N2RpBe)");
+    var $enableSwitch = $(".LsSwGf.vBNbwc:(.N2RpBe)");
     if(toDisable && $disableSwitch.length){
         $disableSwitch.click();
         var $disableButton = await waitForElement(".U26fgb.O0WRkf.oG5Srb.HQ8yf.C0oVfc.ffRi5e.sZ7lgc");
@@ -69,8 +69,8 @@ async function deleteAllActivities(){
     $("a[href='/delete-activity']")[0].click(); // deleteactivities tab
     var $selectOption = await waitForElement("md-option", 4); 
     $selectOption.click(); 
-    $("button.md-button.md-ink-ripple:not(.history-overflow-menu-button)").click(); // Delete button 1
-    var $deleteButton = await waitForElement("md-dialog-content button.md-button.md-ink-ripple:not(.fp-delete-confirmation-cancel");
+    $("button.md-button.md-ink-ripple:(.history-overflow-menu-button)").click(); // Delete button 1
+    var $deleteButton = await waitForElement("md-dialog-content button.md-button.md-ink-ripple:(.fp-delete-confirmation-cancel");
     $deleteButton.click();
     await wait(100);
     return Promise.resolve()
@@ -87,8 +87,17 @@ async function deleteAllPositions(){
 }
 
 async function deleteInterests(){
-    var $interests = await waitForElement(".fRYEGc");
+    await waitForElement(".ym7eO.vmi1sd > *");
+    $interests = $(".ym7eO.vmi1sd > *");
     $interests.click();
+    var $modals = $(".g3VIld.s5Vcuf.Up8vH.hFEqNb.J9Nfi.iWO5td");
+    while($modals.length < $interests.length){
+        await wait(100);
+        $modals = $(".g3VIld.s5Vcuf.Up8vH.hFEqNb.J9Nfi.iWO5td");
+    }
+    await waitForElement(".U26fgb.O0WRkf.oG5Srb.HQ8yf.C0oVfc.ffRi5e.sZ7lgc");
+    $(".U26fgb.O0WRkf.oG5Srb.HQ8yf.C0oVfc.ffRi5e.sZ7lgc").click() // disable button
+    
     return Promise.resolve()
 }
 
