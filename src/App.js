@@ -23,8 +23,8 @@ class App extends Component {
     this.goToGoogle = this.goToGoogle.bind(this);
     this.goToGoogleAds = this.goToGoogleAds.bind(this);
     this.goToGoogleActivities = this.goToGoogleActivities.bind(this);
+    this.stopTreatments = this.stopTreatments.bind(this);
     this.deleteApps = this.deleteApps.bind(this);
-    this.deleteAllApps = this.deleteAllApps.bind(this);
     this.deleteAllPositions = this.deleteAllPositions.bind(this);
     this.synchroGoogle = this.synchroGoogle.bind(this);
     this.deleteInterests = this.deleteInterests.bind(this);
@@ -73,14 +73,15 @@ class App extends Component {
     chrome.runtime.sendMessage({action: "goToGoogleActivities"});
   }
 
-  deleteApps(){
+  stopTreatments(fname, mail, ctry) {
+    alert("function triggered")
     this.setState({loading: this.state.loading+1});
-    chrome.tabs.sendMessage({action: "deleteApps", deleteAll: false, url: "https://www.facebook.com/settings?tab=applications&section=inactive"});
+    chrome.runtime.sendMessage({action: "stopTreatments", fullName: fname, email: mail, country: ctry})
   }
 
-  deleteAllApps(){
+  deleteApps(isAllApps, isAllData){
     this.setState({loading: this.state.loading+1});
-    chrome.tabs.sendMessage({action: "deleteApps", deleteAll: true, url: "https://www.facebook.com/settings?tab=applications&section=inactive"});
+    chrome.runtime.sendMessage({action: "deleteApps", deleteAllApps: isAllApps, deleteAllData: isAllData});
   }
 
   deleteAllPositions(){
@@ -121,8 +122,8 @@ class App extends Component {
                 goToGoogleActivities={() => this.goToGoogleActivities()}
                 deleteAllPositions={() => this.deleteAllPositions()}
                 deleteInterests={() => this.deleteInterests()}
-                deleteApps={() => this.deleteApps()}
-                deleteAllApps={() => this.deleteAllApps()}
+                deleteApps={(isAllApps, isAllData) => this.deleteApps(isAllApps, isAllData)}
+                stopTreatments={(fullName, email, country) => this.stopTreatments(fullName, email, country)}
                 collectedActivities={this.state.collectedActivities}
                 collectingAds={this.state.collectingAds}
               />

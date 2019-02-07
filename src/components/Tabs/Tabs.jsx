@@ -74,8 +74,8 @@ class Tabs extends React.Component {
                  </TabPane>
                 <TabPane tabId="2">
                 <FacebookTab 
-                    deleteApps={() => this.props.deleteApps}
-                    deleteAllApps={() => this.props.deleteAllApps}
+                    deleteApps={(isAllApps, isAllData) => this.props.deleteApps(isAllApps, isAllData)}
+                    stopTreatments={(fullName, email, country) => this.props.stopTreatments(fullName, email, country)}
                     />              
                     </TabPane>
                 <TabPane tabId="3">
