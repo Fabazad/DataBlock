@@ -108,7 +108,11 @@ class App extends Component {
         </header>
         <body className="App-body">
           {this.state.loading > 0 ?
-            <Spinner type="grow" color="success" /> : ""
+            <div class="text-center">
+              <p>Chargement en cours... Ne rien toucher.</p>
+              <Spinner type="grow" color="success" /> 
+            </div>
+            : ""
           }
           { !(this.state.loading > 0) && !this.state.synchronized ?
             <div><Button color="primary" onClick={this.synchroGoogle}>Synchroniser Google</Button></div>
