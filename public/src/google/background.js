@@ -7,7 +7,7 @@ bigBrowser.runtime.onMessage.addListener(function (request, sender, sendResponse
 		goToPageWithAction("https://adssettings.google.com/authenticated", "disableAds", request.toDisable);
 	}
 	if(request.action === "goToGoogleActivities"){
-		openWorkingTab("https://myactivity.google.com/myactivity", "deleteAllActivity");
+		goToPageWithAction("https://myactivity.google.com/myactivity", "deleteAllActivity");
 	}
 	if(request.action === "goToDeleteInterests"){
 		goToPageWithAction("https://adssettings.google.com/u/0/authenticated", "deleteInterests");
@@ -19,7 +19,7 @@ bigBrowser.runtime.onMessage.addListener(function (request, sender, sendResponse
 		closeTabAfterRequests(request.firstTab, request.workingTab);
 	}
 	if(request.action === "goToGoogleTimeline"){
-		openWorkingTab("https://www.google.com/maps/timeline?pb", "deleteAllPositions");
+		goToPageWithAction("https://www.google.com/maps/timeline?pb", "deleteAllPositions");
 	}
 	if(request.action === "synchroGoogle"){
 		openWorkingTab("https://myaccount.google.com/activitycontrols", "getDisableActivities");

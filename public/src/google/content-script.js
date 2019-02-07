@@ -49,7 +49,7 @@ async function disableActivities(fieldsToSelect){
 
 async function disableAds(toDisable){
     var $disableSwitch = $(".LsSwGf.vBNbwc.N2RpBe");
-    var $enableSwitch = $(".LsSwGf.vBNbwc:(.N2RpBe)");
+    var $enableSwitch = $(".LsSwGf.vBNbwc:not(.N2RpBe)");
     if(toDisable && $disableSwitch.length){
         $disableSwitch.click();
         var $disableButton = await waitForElement(".U26fgb.O0WRkf.oG5Srb.HQ8yf.C0oVfc.ffRi5e.sZ7lgc");
@@ -69,10 +69,10 @@ async function deleteAllActivities(){
     $("a[href='/delete-activity']")[0].click(); // deleteactivities tab
     var $selectOption = await waitForElement("md-option", 4); 
     $selectOption.click(); 
-    $("button.md-button.md-ink-ripple:(.history-overflow-menu-button)").click(); // Delete button 1
-    var $deleteButton = await waitForElement("md-dialog-content button.md-button.md-ink-ripple:(.fp-delete-confirmation-cancel");
+    $("button.md-button.md-ink-ripple:not(.history-overflow-menu-button)").click(); // Delete button 1
+    var $deleteButton = await waitForElement("md-dialog-content button.md-button.md-ink-ripple:not(.fp-delete-confirmation-cancel");
     $deleteButton.click();
-    await wait(100);
+    await wait(2000);
     return Promise.resolve()
 }
 
@@ -97,7 +97,7 @@ async function deleteInterests(){
     }
     await waitForElement(".U26fgb.O0WRkf.oG5Srb.HQ8yf.C0oVfc.ffRi5e.sZ7lgc");
     $(".U26fgb.O0WRkf.oG5Srb.HQ8yf.C0oVfc.ffRi5e.sZ7lgc").click() // disable button
-    
+    await wait(2000);
     return Promise.resolve()
 }
 

@@ -175,7 +175,7 @@ class GoogleTab extends Component {
         </div>
             <div className="google-form">
                 <p>Supprimer les données existantes</p> 
-                <Button id="delete-geolocation-btn" className="delete-button" color="danger" onClick={() => this.deleteDataChecked()}>Géolocalisation</Button>
+                <Button id="delete-geolocation-btn" className="delete-button" color="danger" onClick={() => this.deleteAllPositions()}>Géolocalisation</Button>
                 <UncontrolledTooltip placement="left" target="delete-geolocation-btn" delay={0}>
                     Supprime tout l'historique des endroits où vous êtes allé
                 </UncontrolledTooltip>
